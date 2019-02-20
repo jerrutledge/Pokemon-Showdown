@@ -1303,7 +1303,7 @@ let BattleItems = {
 		fling: {
 			basePower: 30,
 		},
-		num: 250,
+		num: 21,
 		gen: 2,
 		desc: "Evolves Seadra into Kingdra when traded.",
 	},
@@ -5136,7 +5136,7 @@ let BattleItems = {
 				return this.chainModify([0x1333, 0x1000]);
 			}
 		},
-		num: 251,
+		num: 260,
 		gen: 3,
 		desc: "Holder's Normal-type attacks have 1.2x power.",
 	},
@@ -6128,7 +6128,7 @@ let BattleItems = {
 			pokemon.addVolatile('confusion');
 			pokemon.setItem('');
 		},
-		num: 0,
+		num: 20,
 		gen: 2,
 		isNonstandard: 'gen2',
 		desc: "(Gen 2) On switch-in, raises holder's Attack by 2 and confuses it. Single use.",
