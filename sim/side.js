@@ -7,6 +7,7 @@
 'use strict';
 
 const Pokemon = require('./pokemon');
+const GameState = require('./game-state');
 
 /**
  * An object representing a single action that can be chosen.
@@ -63,6 +64,9 @@ class Side {
 		this.active = [null];
 		/**@type {AnyObject} */
 		this.sideConditions = {};
+
+		// game state generator for Neural Network
+		this.gameState = new GameState(this);
 
 		this.pokemonLeft = 0;
 		this.faintedLastTurn = false;
@@ -181,6 +185,10 @@ class Side {
 			if (this.battle.gen > 6) entry.ability = pokemon.ability;
 			data.pokemon.push(entry);
 		}
+
+		// Neural Network 
+		data.gameState = this.gameState.getGameState();
+
 		return data;
 	}
 
