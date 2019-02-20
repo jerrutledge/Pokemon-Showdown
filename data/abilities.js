@@ -2901,7 +2901,7 @@ let BattleAbilities = {
 		id: "serenegrace",
 		name: "Serene Grace",
 		rating: 4,
-		num: 32,
+		num: 31,
 	},
 	"shadowshield": {
 		desc: "If this Pokemon is at full HP, damage taken from attacks is halved. Moongeist Beam, Sunsteel Strike, and the Mold Breaker, Teravolt, and Turboblaze Abilities cannot ignore this Ability.",
