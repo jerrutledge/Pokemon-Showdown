@@ -8003,7 +8003,7 @@ let BattleMovedex = {
 		contestType: "Cool",
 	},
 	"holdhands": {
-		num: 615,
+		num: 625,
 		accuracy: true,
 		basePower: 0,
 		category: "Status",
@@ -19455,7 +19455,7 @@ let BattleMovedex = {
 		contestType: "Cool",
 	},
 	"paleowave": {
-		num: 0,
+		num: -2,
 		accuracy: 100,
 		basePower: 85,
 		category: "Special",
@@ -19480,7 +19480,7 @@ let BattleMovedex = {
 		contestType: "Beautiful",
 	},
 	"shadowstrike": {
-		num: 0,
+		num: -3,
 		accuracy: 95,
 		basePower: 80,
 		category: "Physical",
@@ -19505,7 +19505,7 @@ let BattleMovedex = {
 		contestType: "Clever",
 	},
 	"magikarpsrevenge": {
-		num: 0,
+		num: -4,
 		accuracy: true,
 		basePower: 120,
 		category: "Physical",

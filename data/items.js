@@ -6445,7 +6445,7 @@ let BattleItems = {
 			if (item.megaEvolves === source.baseTemplate.baseSpecies) return false;
 			return true;
 		},
-		num: -1,
+		num: -5,
 		gen: 6,
 		isNonstandard: true,
 		desc: "If held by a Crucibelle, this item allows it to Mega Evolve in battle.",
