@@ -218,42 +218,42 @@ class GameState {
 		}
 
 		// mypokemon1 current type
-		this.state[215] = 0;
-		// mypokemon1 current ability
 		this.state[216] = 0;
+		// mypokemon1 current ability
+		this.state[217] = 0;
 		// mypokemon1 atk boost
-		this.state[217] = this.side.active[0] == null ? 0 : this.side.active[0].boosts.atk;
+		this.state[218] = this.side.active[0] == null ? 0 : this.side.active[0].boosts.atk;
 		// mypokemon1 def boost
-		this.state[218] = this.side.active[0] == null ? 0 : this.side.active[0].boosts.def;
+		this.state[219] = this.side.active[0] == null ? 0 : this.side.active[0].boosts.def;
 		// mypokemon1 spa boost
-		this.state[219] = this.side.active[0] == null ? 0 : this.side.active[0].boosts.spa;
+		this.state[220] = this.side.active[0] == null ? 0 : this.side.active[0].boosts.spa;
 		// mypokemon1 spd boost
-		this.state[220] = this.side.active[0] == null ? 0 : this.side.active[0].boosts.spd;
+		this.state[221] = this.side.active[0] == null ? 0 : this.side.active[0].boosts.spd;
 		// mypokemon1 spe boost
-		this.state[221] = this.side.active[0] == null ? 0 : this.side.active[0].boosts.spe;
+		this.state[222] = this.side.active[0] == null ? 0 : this.side.active[0].boosts.spe;
 		// mypokemon1 accuracy boost
-		this.state[222] = this.side.active[0] == null ? 0 : this.side.active[0].boosts.accuracy;
+		this.state[223] = this.side.active[0] == null ? 0 : this.side.active[0].boosts.accuracy;
 		// mypokemon1 evasion boost
-		this.state[223] = this.side.active[0] == null ? 0 : this.side.active[0].boosts.evasion;
+		this.state[224] = this.side.active[0] == null ? 0 : this.side.active[0].boosts.evasion;
 
 		// foepokemon1 current type
-		this.state[224] = 0;
+		this.state[225] = 0;
 		// foepokemon1 current ability
-		this.state[225] = -1;
+		this.state[226] = -1; // unknown
 		// foepokemon1 atk boost
-		this.state[226] = this.side.foe.active[0] == null ? 0 : this.side.foe.active[0].boosts.atk;
+		this.state[227] = this.side.foe.active[0] == null ? 0 : this.side.foe.active[0].boosts.atk;
 		// foepokemon1 def boost
-		this.state[227] = this.side.foe.active[0] == null ? 0 : this.side.foe.active[0].boosts.def;
+		this.state[228] = this.side.foe.active[0] == null ? 0 : this.side.foe.active[0].boosts.def;
 		// foepokemon1 spa boost
-		this.state[228] = this.side.foe.active[0] == null ? 0 : this.side.foe.active[0].boosts.spa;
+		this.state[229] = this.side.foe.active[0] == null ? 0 : this.side.foe.active[0].boosts.spa;
 		// foepokemon1 spd boost
-		this.state[229] = this.side.foe.active[0] == null ? 0 : this.side.foe.active[0].boosts.spd;
+		this.state[230] = this.side.foe.active[0] == null ? 0 : this.side.foe.active[0].boosts.spd;
 		// foepokemon1 spe boost
-		this.state[230] = this.side.foe.active[0] == null ? 0 : this.side.foe.active[0].boosts.spe;
+		this.state[231] = this.side.foe.active[0] == null ? 0 : this.side.foe.active[0].boosts.spe;
 		// foepokemon1 accuracy boost
-		this.state[231] = this.side.foe.active[0] == null ? 0 : this.side.foe.active[0].boosts.accuracy;
+		this.state[232] = this.side.foe.active[0] == null ? 0 : this.side.foe.active[0].boosts.accuracy;
 		// foepokemon1 evasion boost
-		this.state[232] = this.side.foe.active[0] == null ? 0 : this.side.foe.active[0].boosts.evasion;
+		this.state[233] = this.side.foe.active[0] == null ? 0 : this.side.foe.active[0].boosts.evasion;
 
 		// determine the gamestate
 		this.state[233] = 0;
@@ -264,15 +264,15 @@ class GameState {
 		var foeMoveRegex = new RegExp("^\\|move\\|".concat(this.side.foe.id,"[abc]"));
 		var moveRegex = /^\|move\|.*\|(.*)\|/;
 		// if no move, vector should show 0
-		this.state[234] = 0;
 		this.state[235] = 0;
+		this.state[236] = 0;
 		for (var line in lastLog) {
 			if (lastLog[line].match(myMoveRegex)) {
 				// my last move
-				this.state[231] = this.getMoveNumber(lastLog[line].match(moveRegex)[1]);
+				this.state[235] = this.getMoveNumber(lastLog[line].match(moveRegex)[1]);
 			} else if (lastLog[line].match(foeMoveRegex)) {
 				// foe last move
-				this.state[232] = this.getMoveNumber(lastLog[line].match(moveRegex)[1]);
+				this.state[236] = this.getMoveNumber(lastLog[line].match(moveRegex)[1]);
 			}
 		}
 
