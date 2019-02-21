@@ -256,7 +256,21 @@ class GameState {
 		this.state[233] = this.side.foe.active[0] == null ? 0 : this.side.foe.active[0].boosts.evasion;
 
 		// determine the gamestate
-		this.state[233] = 0;
+		switch (this.side.currentRequest) {
+			// pokemon choice & win/loss never reaches here
+			case "teampreview":
+				this.state[234] = 5;
+				break;
+			case "switch":
+				this.state[234] = 4;
+				break;
+			case "move":
+				this.state[234] = 3;
+				break;
+			default:
+				// assume request = "" aka wait
+				this.state[234] = 0;
+		}
 
 		// determine the moves taken in the last turn
 		var lastLog = this.side.battle.log.slice(this.side.battle.sentLogPos);
