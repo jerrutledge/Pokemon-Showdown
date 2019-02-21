@@ -33,7 +33,24 @@ class RandomPlayerAI extends BattleStreams.BattlePlayer {
 	 * @param {AnyObject} request
 	 */
 	receiveRequest(request) {
-		// console.log(request);
+		// readable log for gameState vector
+		var gameStateLog = "\n" + request.side.id;
+		for (var i = 0; i <= 5; i++) {
+			gameStateLog += "\nAlly" + i + ":" + 
+				request.side.gameState.slice(i * 21, (i + 1) * 21);
+		}
+		for (var i = 0; i <= 5; i++) {
+			gameStateLog += "\nFoeP" + i + ":" + 
+				request.side.gameState.slice(126 + i * 15, 126 + (i + 1) * 15);
+		}
+		gameStateLog += "\nMyState:   " + 
+			request.side.gameState.slice(216, 225);
+		gameStateLog += "\nFoeState: " + 
+			request.side.gameState.slice(225, 234);
+		gameStateLog += "\nGameState/Moves: " + 
+			request.side.gameState.slice(234);
+		console.log(gameStateLog);
+
 		if (request.wait) {
 			// wait request
 			// do nothing
@@ -107,9 +124,12 @@ console.log("p2 is " + p2.constructor.name);
 	let chunk;
 	while ((chunk = await streams.omniscient.read())) {
 		console.log(chunk);
+		// handle win?
 	}
 })();
 
 streams.omniscient.write(`>start ${JSON.stringify(spec)}
 >player p1 ${JSON.stringify(p1spec)}
 >player p2 ${JSON.stringify(p2spec)}`);
+
+
