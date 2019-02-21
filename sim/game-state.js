@@ -267,8 +267,11 @@ class GameState {
 		// pokemon spe
 		pokemonStateVector[20] = pokemon.stats.spe;
 
-		if (pokemonStateVector[3] == null || pokemonStateVector[4] == null) {
-			console.log(pokemonStateVector[3], pokemonStateVector[4]);
+		// uh oh
+		for (var i = pokemonStateVector.length - 1; i >= 0; i--) {
+			if (pokemonStateVector[i] == null) {
+				pokemonStateVector[i] = 0;
+			}
 		}
 
 		return pokemonStateVector;
