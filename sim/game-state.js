@@ -214,6 +214,9 @@ class GameState {
 
 		// then, their six pokemon
 		for (var i = this.side.foe.pokemon.length - 1; i >= 0; i--) {
+			Array.prototype.splice.apply(this.state, [126+i*15,15].concat(
+				this.getFoePokemonVector(this.side.foe.pokemon[i], 
+					this.state.splice(126+i*15,141+i*15))));
 			// this.side.foe.pokemon[i]
 		}
 
@@ -331,6 +334,38 @@ class GameState {
 		pokemonStateVector[19] = pokemon.stats.spd;
 		// pokemon spe
 		pokemonStateVector[20] = pokemon.stats.spe;
+
+		// uh oh
+		for (var i = pokemonStateVector.length - 1; i >= 0; i--) {
+			if (pokemonStateVector[i] == null) {
+				pokemonStateVector[i] = 0;
+			}
+		}
+
+		return pokemonStateVector;
+	}
+
+	/**
+	 * @param {Pokemon} pokemon
+	 * @param {array} oldVector
+	 */
+	getFoePokemonVector(pokemon, oldVector) {
+		// the goal is not to change any "unknown" value if possible
+		var pokemonStateVector = oldVector;
+
+		// pokemon id
+		pokemonStateVector[0] = this.getPokemonNumber(pokemon);
+		// pokemon level
+		pokemonStateVector[1] = pokemon.level;
+		// pokemon gender
+		pokemonStateVector[2] = (pokemon.gender == "F" ? 1 : (pokemon.gender == "M" ? 2 : 0));
+		// pokemon hp (percent)
+		pokemonStateVector[13] = Math.ceil(pokemon.hp / pokemon.maxhp * 100) == 100 && 
+			pokemon.hp < pokemon.maxhp ? 99 : Math.ceil(pokemon.hp / pokemon.maxhp * 100);
+		// pokemon status (permanent status like poison, faint)
+		pokemonStateVector[14] = ((pokemon.status == "" || 
+			this.statusConverter[pokemon.status] == null) ? 0 : 
+			this.statusConverter[pokemon.status]);
 
 		// uh oh
 		for (var i = pokemonStateVector.length - 1; i >= 0; i--) {
