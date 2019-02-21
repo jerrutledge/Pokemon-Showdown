@@ -33,7 +33,7 @@ class RandomPlayerAI extends BattleStreams.BattlePlayer {
 	 * @param {AnyObject} request
 	 */
 	receiveRequest(request) {
-		console.log(request);
+		// console.log(request);
 		if (request.wait) {
 			// wait request
 			// do nothing

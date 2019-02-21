@@ -120,6 +120,7 @@ mypokemon1 miracle eye
 mypokemon1 odor sleuth
 mypokemon1 stockpile
 mypokemon1 yawn
+mypokemon1 choicelock
 
 
 */
@@ -206,16 +207,21 @@ class GameState {
 			Array.prototype.splice.apply(this.state, [i*21,21].concat(this.getAllyPokemonVector(this.side.pokemon[i])));
 		}
 
+		// determine the moves taken in the last turn
 		var lastLog = this.side.battle.log.slice(this.side.battle.sentLogPos);
 		var myMoveRegex = new RegExp('^\\|move\\|'.concat(this.side.id,"[abc]"));
 		var foeMoveRegex = new RegExp("^\\|move\\|".concat(this.side.foe.id,"[abc]"));
+		var moveRegex = /^\|move\|.*\|(.*)\|/;
+		// if no move, vector should show 0
+		this.state[231] = 0;
+		this.state[232] = 0;
 		for (var line in lastLog) {
 			if (lastLog[line].match(myMoveRegex)) {
 				// my last move
-				this.state[231] = this.getMoveNumber(lastLog[line]);
+				this.state[231] = this.getMoveNumber(lastLog[line].match(moveRegex)[1]);
 			} else if (lastLog[line].match(foeMoveRegex)) {
 				// foe last move
-				this.state[232] = this.getMoveNumber(lastLog[line]);
+				this.state[232] = this.getMoveNumber(lastLog[line].match(moveRegex)[1]);
 			}
 		}
 
@@ -236,7 +242,7 @@ class GameState {
 		// pokemon gender
 		pokemonStateVector[2] = (pokemon.gender == "F" ? 1 : (pokemon.gender == "M" ? 2 : 0));
 		// pokemon item
-		pokemonStateVector[3] = this.itemdex[pokemon.item];
+		pokemonStateVector[3] = pokemon.item == "" ? 0 : this.itemdex[pokemon.item];
 		// pokemon ability
 		pokemonStateVector[4] = this.abilitydex[pokemon.ability];
 		// pokemon moves (as determined by move iteration: actual hidden power types)
@@ -287,7 +293,8 @@ class GameState {
 		// returns num in move.js
 		var moveNumber = isAlly ? this.allyMovedex[move] : this.foeMovedex[move];
 		if (moveNumber == null) {
-			// try to translate full name of move into move id
+			// try to translate full name of move into move id, else return 0 for unknown
+			moveNumber = this.moveTranslation[move] == null ? -1 : this.moveTranslation[move];
 		}
 		return moveNumber;
 	}
