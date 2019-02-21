@@ -55,13 +55,17 @@ mypokemon1 def boost
 mypokemon1 spa boost
 mypokemon1 spd boost
 mypokemon1 spe boost
+mypokemon1 accuracy boost
+mypokemon1 evasion boost
 foepokemon1 current type
-foepokemon1 current ability
+foepokemon1 current ability (once learned)
 foepokemon1 atk boost
 foepokemon1 def boost
 foepokemon1 spa boost
 foepokemon1 spd boost
 foepokemon1 spe boost
+foepokemon1 accuracy boost
+foepokemon1 evasion boost
 
 // battle record
 win = 1, loss = 2, inbattle = 3, choosepokemon = 4
@@ -184,14 +188,14 @@ class GameState {
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
-			0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
-			0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
-			0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
-			0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
-			0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
-			0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 
-			0, 0, 0, 0, 0, 0, 0, 
-			0, 0, 0, 0, 0, 0, 0, 
+			0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, 
+			0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, 
+			0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, 
+			0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, 
+			0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, 
+			0, 0, 0, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, 0, 0, 
+			0, 0, 0, 0, 0, 0, 0, 0, 0,
+			0, -1, 0, 0, 0, 0, 0, 0, 0,
 			0, 0, 0];
 	}
 
@@ -207,14 +211,60 @@ class GameState {
 			Array.prototype.splice.apply(this.state, [i*21,21].concat(this.getAllyPokemonVector(this.side.pokemon[i])));
 		}
 
+		// then, their six pokemon
+		for (var i = this.side.foe.pokemon.length - 1; i >= 0; i--) {
+			// this.side.foe.pokemon[i]
+		}
+
+		// mypokemon1 current type
+		this.state[215] = 0;
+		// mypokemon1 current ability
+		this.state[216] = 0;
+		// mypokemon1 atk boost
+		this.state[217] = this.side.active[0] == null ? 0 : this.side.active[0].boosts.atk;
+		// mypokemon1 def boost
+		this.state[218] = this.side.active[0] == null ? 0 : this.side.active[0].boosts.def;
+		// mypokemon1 spa boost
+		this.state[219] = this.side.active[0] == null ? 0 : this.side.active[0].boosts.spa;
+		// mypokemon1 spd boost
+		this.state[220] = this.side.active[0] == null ? 0 : this.side.active[0].boosts.spd;
+		// mypokemon1 spe boost
+		this.state[221] = this.side.active[0] == null ? 0 : this.side.active[0].boosts.spe;
+		// mypokemon1 accuracy boost
+		this.state[222] = this.side.active[0] == null ? 0 : this.side.active[0].boosts.accuracy;
+		// mypokemon1 evasion boost
+		this.state[223] = this.side.active[0] == null ? 0 : this.side.active[0].boosts.evasion;
+
+		// foepokemon1 current type
+		this.state[224] = 0;
+		// foepokemon1 current ability
+		this.state[225] = -1;
+		// foepokemon1 atk boost
+		this.state[226] = this.side.foe.active[0] == null ? 0 : this.side.foe.active[0].boosts.atk;
+		// foepokemon1 def boost
+		this.state[227] = this.side.foe.active[0] == null ? 0 : this.side.foe.active[0].boosts.def;
+		// foepokemon1 spa boost
+		this.state[228] = this.side.foe.active[0] == null ? 0 : this.side.foe.active[0].boosts.spa;
+		// foepokemon1 spd boost
+		this.state[229] = this.side.foe.active[0] == null ? 0 : this.side.foe.active[0].boosts.spd;
+		// foepokemon1 spe boost
+		this.state[230] = this.side.foe.active[0] == null ? 0 : this.side.foe.active[0].boosts.spe;
+		// foepokemon1 accuracy boost
+		this.state[231] = this.side.foe.active[0] == null ? 0 : this.side.foe.active[0].boosts.accuracy;
+		// foepokemon1 evasion boost
+		this.state[232] = this.side.foe.active[0] == null ? 0 : this.side.foe.active[0].boosts.evasion;
+
+		// determine the gamestate
+		this.state[233] = 0;
+
 		// determine the moves taken in the last turn
 		var lastLog = this.side.battle.log.slice(this.side.battle.sentLogPos);
 		var myMoveRegex = new RegExp('^\\|move\\|'.concat(this.side.id,"[abc]"));
 		var foeMoveRegex = new RegExp("^\\|move\\|".concat(this.side.foe.id,"[abc]"));
 		var moveRegex = /^\|move\|.*\|(.*)\|/;
 		// if no move, vector should show 0
-		this.state[231] = 0;
-		this.state[232] = 0;
+		this.state[234] = 0;
+		this.state[235] = 0;
 		for (var line in lastLog) {
 			if (lastLog[line].match(myMoveRegex)) {
 				// my last move
