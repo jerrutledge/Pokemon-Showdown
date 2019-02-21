@@ -243,8 +243,8 @@ class GameState {
 		pokemonStateVector[2] = (pokemon.gender == "F" ? 1 : (pokemon.gender == "M" ? 2 : 0));
 		// pokemon item
 		pokemonStateVector[3] = pokemon.item == "" ? 0 : this.itemdex[pokemon.item];
-		// pokemon ability
-		pokemonStateVector[4] = this.abilitydex[pokemon.ability];
+		// pokemon base ability
+		pokemonStateVector[4] = this.abilitydex[pokemon.baseAbility];
 		// pokemon moves (as determined by move iteration: actual hidden power types)
 		for (var i = pokemon.moveSlots.length - 1; i >= 0; i--) {
 			pokemonStateVector[5 + 2*i] = this.getMoveNumber(pokemon.moveSlots[i].id, true);
