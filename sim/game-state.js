@@ -1,6 +1,6 @@
 // For use with Pokemon Showdown
 
-'use strict';
+// 'use strict';
 
 /*vector structure
 
@@ -131,6 +131,9 @@ foepokemon1 lastmove
 
 // output a game state vector from game data 
 // intended as input for a neural network
+/**
+ * @param {Side} side
+ */
 class GameState {
 	constructor (side) {
 		this.side = side;
@@ -208,16 +211,67 @@ class GameState {
 
 		// first, your six pokemon
 		for (var i = 0; i<this.side.pokemon.length; i++) {
-			Array.prototype.splice.apply(this.state, [i*21,21].concat(
-				this.getAllyPokemonVector(this.side.pokemon[i])));
+			Array.prototype.splice.apply(this.state, [i*21,21].concat(this.getAllyPokemonVector(this.side.pokemon[i])));
+		}
+
+		// determine if there has been a switch or a drag
+		var switchRegex = new RegExp('^\\|switch\\|' + this.side.foe.id);
+		//	DETERMINE IF DRAG !!!!!!!!!!!!!!!!!!!!
+		// determine the moves taken in the last turn
+		var myMoveRegex = new RegExp('^\\|move\\|'.concat(this.side.id,"[abc]"));
+		var foeMoveRegex = new RegExp("^\\|move\\|".concat(this.side.foe.id,"[abc]"));
+		var moveRegex = /^\|move\|.*\|(.*)\|/;
+		// if no move, vector should show 0
+		this.state[235] = 0;
+		this.state[236] = 0;
+		// determine enemy items
+		var fromItemRegex = new RegExp(this.side.foe.id + '.*\\[from\\] item: (.*)$');
+		var itemRegex = new RegExp('^\\|-.{0,3}item\\|'+this.side.foe.id);
+		// determine enemy abilities
+		var fromAbilityRegex = new RegExp(this.side.foe.id + '.*\\[from\\] ability: (.*)$');
+		var fromFoeAbilityRegex = new RegExp('.*\\[from\\] ability: (.*)\|[of]' + this.side.foe.id);
+		var abilityRegex = new RegExp('^\\|-.{0,3}ability\\|'+this.side.foe.id);
+
+		// look at log from the last turn
+		var lastLog = this.side.battle.log.slice(this.side.battle.sentLogPos);
+		for (var line in lastLog) {
+			if (lastLog[line].match(switchRegex)) {
+				// switch the pokemon
+				var inputs = this.side.battle.inputLog.slice(-2);
+				var switchInput = ">"+this.side.foe.id+" switch";
+				inputs = inputs[1].includes(switchInput) ? inputs[1] : 
+					inputs[0].includes(switchInput) ? inputs[0] : null;
+				if (inputs !== null) {
+					var switchIndex = parseInt(inputs.substring(inputs.length - 1));
+					// switch row switchIndex with row 1 of foe Pokemon
+					var oldLeadVector = this.state.slice(126,141);
+					Array.prototype.splice.apply(this.state, 
+						[126,15].concat(this.state.slice(111+switchIndex*15,126+switchIndex*15)));
+					Array.prototype.splice.apply(this.state, 
+						[111+switchIndex*15,15].concat(oldLeadVector));
+				}
+			} else if (lastLog[line].match(myMoveRegex)) {
+				// my last move
+				this.state[235] = this.getMoveNumber(lastLog[line].match(moveRegex)[1]);
+			} else if (lastLog[line].match(foeMoveRegex)) {
+				// foe last move
+				this.state[236] = this.getMoveNumber(lastLog[line].match(moveRegex)[1]);
+				// this.state[]
+			} else if (lastLog[line].match(fromItemRegex) || lastLog[line].match(itemRegex)) {
+				var item = this.side.foe.pokemon[0].item;
+				this.state[129] = item == "" ? 0 : this.itemdex[item];
+			}
+			if (lastLog[line].match(fromAbilityRegex) || 
+					lastLog[line].match(abilityRegex) || 
+					lastLog[line].match(fromFoeAbilityRegex) ) {
+				var ability = this.side.foe.pokemon[0].baseAbility;
+				this.state[130] = ability == "" ? 0 : this.abilitydex[ability];
+			}
 		}
 
 		// then, their six pokemon
 		for (var i = this.side.foe.pokemon.length - 1; i >= 0; i--) {
-			Array.prototype.splice.apply(this.state, [126+i*15,15].concat(
-				this.getFoePokemonVector(this.side.foe.pokemon[i], 
-					this.state.splice(126+i*15,141+i*15))));
-			// this.side.foe.pokemon[i]
+			Array.prototype.splice.apply(this.state, [126+i*15,15].concat(this.getFoePokemonVector(this.side.foe.pokemon[i], this.state.splice(126+i*15,141+i*15))));
 		}
 
 		// mypokemon1 current type
@@ -258,7 +312,7 @@ class GameState {
 		// foepokemon1 evasion boost
 		this.state[233] = this.side.foe.active[0] == null ? 0 : this.side.foe.active[0].boosts.evasion;
 
-		// determine the gamestate
+		// determine the request
 		switch (this.side.currentRequest) {
 			// pokemon choice & win/loss never reaches here
 			case "teampreview":
@@ -283,6 +337,9 @@ class GameState {
 		// if no move, vector should show 0
 		this.state[235] = 0;
 		this.state[236] = 0;
+		// determine enemy items
+		var fromItemRegex = new RegExp(this.side.foe.id + '.*\\[from\\] item: (.*)$');
+		var itemRegex = new RegExp('^\\|-.?.?.?item\\|'+this.side.foe.id);
 		for (var line in lastLog) {
 			if (lastLog[line].match(myMoveRegex)) {
 				// my last move
@@ -290,10 +347,12 @@ class GameState {
 			} else if (lastLog[line].match(foeMoveRegex)) {
 				// foe last move
 				this.state[236] = this.getMoveNumber(lastLog[line].match(moveRegex)[1]);
+			} else if (lastLog[line].match(fromItemRegex) || lastLog[line].match(itemRegex)) {
+				var item = this.side.foe.pokemon[0].item;
+				this.state[129] = item == "" ? 0 : this.itemdex[item];
 			}
 		}
 
-		// example
 		return this.state;
 	}
 
@@ -359,6 +418,17 @@ class GameState {
 		pokemonStateVector[1] = pokemon.level;
 		// pokemon gender
 		pokemonStateVector[2] = (pokemon.gender == "F" ? 1 : (pokemon.gender == "M" ? 2 : 0));
+		// pokemon item
+		var item = pokemon.item == "" ? 0 : this.itemdex[pokemon.item];
+		pokemonStateVector[3] = pokemonStateVector[3] == -1 ? -1 : item;
+		// pokemon base ability
+		var ability = this.abilitydex[pokemon.baseAbility];
+		pokemonStateVector[4] = pokemonStateVector[4] == -1 ? -1 : ability;
+		// // pokemon moves (as determined by move iteration: actual hidden power types)
+		// for (var i = pokemon.moveSlots.length - 1; i >= 0; i--) {
+		// 	pokemonStateVector[5 + 2*i] = this.getMoveNumber(pokemon.moveSlots[i].id, true);
+		// 	pokemonStateVector[6 + 2*i] = pokemon.moveSlots[i].pp;
+		// }
 		// pokemon hp (percent)
 		pokemonStateVector[13] = Math.ceil(pokemon.hp / pokemon.maxhp * 100) == 100 && 
 			pokemon.hp < pokemon.maxhp ? 99 : Math.ceil(pokemon.hp / pokemon.maxhp * 100);
