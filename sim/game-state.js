@@ -77,7 +77,7 @@ foepokemon1 lastmove
 // edge cases ???????????????????????????????????
 !!  weather
 !!  terrain
-	trick room
+!	trick room
 	gravity
 	magic room
 	mud sport
@@ -87,21 +87,20 @@ foepokemon1 lastmove
 	my light screen
 	my aurora veil
 !!  my spikes
-	my toxic spikes
-	my stealth rock
-	my sticky web
+!!	my toxic spikes
+!!	my stealth rock
+!!	my sticky web
 	my lucky chant
 	my safeguard
 	my tailwind
 	my wish
-!!  mypokemon1 confusion
+!!	mypokemon1 confusion
 	mypokemon1 infatuated
-!!  mypokemon1 leech seed
-	mypokemon1 ingrain
+!	mypokemon1 leech seed
+!	mypokemon1 ingrain
 	mypokemon1 aqua ring
-	mypokemon1 ingrain
-	mypokemon1 can switch
-	mypokemon1 substitute
+!	mypokemon1 can switch
+!!	mypokemon1 substitute
 	mypokemon1 surehit
 	mypokemon1 curse
 	mypokemon1 embargo
@@ -110,11 +109,11 @@ foepokemon1 lastmove
 	mypokemon1 perish song
 	mypokemon1 power trick
 	mypokemon1 telekinesis
-	mypokemon1 move1 disabled
-	mypokemon1 move2 disabled
-	mypokemon1 move3 disabled
-	mypokemon1 move4 disabled
-	mypokemon1 encore
+!	mypokemon1 move1 disabled
+!	mypokemon1 move2 disabled
+!	mypokemon1 move3 disabled
+!	mypokemon1 move4 disabled
+!	mypokemon1 encore
 !!  mypokemon1 taunt
 	mypokemon1 critratio
 	mypokemon1 heal block
