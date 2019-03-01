@@ -221,9 +221,6 @@ class GameState {
 			Array.prototype.splice.apply(this.state, [i*21,21].concat(this.getAllyPokemonVector(this.side.pokemon[i])));
 		}
 
-		// determine if there has been a switch or a drag
-		var switchRegex = new RegExp('^\\|switch\\|' + this.side.foe.id);
-		//	DETERMINE IF DRAG !!!!!!!!!!!!!!!!!!!!
 		// determine the moves taken in the last turn
 		var myMoveRegex = new RegExp('^\\|move\\|'.concat(this.side.id,"[abc]"));
 		var foeMoveRegex = new RegExp("^\\|move\\|".concat(this.side.foe.id,"[abc]"));
@@ -231,7 +228,7 @@ class GameState {
 		// if no move, vector should show 0
 		this.state[235] = 0;
 		this.state[236] = 0;
-		// determine enemy items
+		// determine if enemy items were revealed
 		var fromItemRegex = new RegExp(this.side.foe.id + '.*\\[from\\] item: (.*)$');
 		var itemRegex = new RegExp('^\\|-.{0,3}item\\|'+this.side.foe.id);
 		// determine enemy abilities
@@ -242,37 +239,21 @@ class GameState {
 		// look at log from the last turn
 		var lastLog = this.side.battle.log.slice(this.side.battle.sentLogPos);
 		for (var line in lastLog) {
-			if (lastLog[line].match(switchRegex)) {
-				// switch the pokemon
-				var inputs = this.side.battle.inputLog.slice(-2);
-				var switchInput = ">"+this.side.foe.id+" switch";
-				inputs = inputs[1].includes(switchInput) ? inputs[1] : 
-					inputs[0].includes(switchInput) ? inputs[0] : null;
-				if (inputs !== null) {
-					var switchIndex = parseInt(inputs.substring(inputs.length - 1));
-					// switch row switchIndex with row 1 of foe Pokemon
-					var oldLeadVector = this.state.slice(126,141);
-					Array.prototype.splice.apply(this.state, 
-						[126,15].concat(this.state.slice(111+switchIndex*15,126+switchIndex*15)));
-					Array.prototype.splice.apply(this.state, 
-						[111+switchIndex*15,15].concat(oldLeadVector));
-				}
-			} else if (lastLog[line].match(myMoveRegex)) {
+			if (lastLog[line].match(myMoveRegex)) {
 				// my last move
 				this.state[235] = this.getMoveNumber(lastLog[line].match(moveRegex)[1]);
 			} else if (lastLog[line].match(foeMoveRegex)) {
 				// foe last move
-				this.state[236] = this.getMoveNumber(lastLog[line].match(moveRegex)[1]);
-				// this.state[]
+				var moveName = lastLog[line].match(moveRegex)[1];
+				this.state[236] = this.getMoveNumber(moveName);
+				// if no match, must be a Z move, no need to record
 			} else if (lastLog[line].match(fromItemRegex) || lastLog[line].match(itemRegex)) {
-				var item = this.side.foe.pokemon[0].item;
-				this.state[129] = item == "" ? 0 : this.itemdex[item];
+				this.side.foe.pokemon[0].revealItem = true;
 			}
 			if (lastLog[line].match(fromAbilityRegex) || 
 					lastLog[line].match(abilityRegex) || 
 					lastLog[line].match(fromFoeAbilityRegex) ) {
-				var ability = this.side.foe.pokemon[0].baseAbility;
-				this.state[130] = ability == "" ? 0 : this.abilitydex[ability];
+				this.side.foe.pokemon[0].revealAbility = true;
 			}
 		}
 
@@ -427,15 +408,17 @@ class GameState {
 		pokemonStateVector[2] = (pokemon.gender == "F" ? 1 : (pokemon.gender == "M" ? 2 : 0));
 		// pokemon item
 		var item = pokemon.item == "" ? 0 : this.itemdex[pokemon.item];
-		pokemonStateVector[3] = pokemonStateVector[3] == -1 ? -1 : item;
+		pokemonStateVector[3] = pokemon.revealItem ? item : -1;
 		// pokemon base ability
 		var ability = this.abilitydex[pokemon.baseAbility];
-		pokemonStateVector[4] = pokemonStateVector[4] == -1 ? -1 : ability;
+		pokemonStateVector[4] = pokemon.revealAbility ? ability : -1;
 		// // pokemon moves (as determined by move iteration: actual hidden power types)
-		// for (var i = pokemon.moveSlots.length - 1; i >= 0; i--) {
-		// 	pokemonStateVector[5 + 2*i] = this.getMoveNumber(pokemon.moveSlots[i].id, true);
-		// 	pokemonStateVector[6 + 2*i] = pokemon.moveSlots[i].pp;
-		// }
+		for (var i = pokemon.moveSlots.length - 1; i >= 0; i--) {
+			if (pokemon.moveSlots[i].used == true) {
+				pokemonStateVector[5 + 2*i] = this.getMoveNumber(pokemon.moveSlots[i].id, true);
+				pokemonStateVector[6 + 2*i] = pokemon.moveSlots[i].pp;
+			}
+		}
 		// pokemon hp (percent)
 		pokemonStateVector[13] = Math.ceil(pokemon.hp / pokemon.maxhp * 100) == 100 && 
 			pokemon.hp < pokemon.maxhp ? 99 : Math.ceil(pokemon.hp / pokemon.maxhp * 100);
