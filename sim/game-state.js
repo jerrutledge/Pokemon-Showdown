@@ -231,7 +231,7 @@ class GameState {
 		// determine if enemy items were revealed
 		var fromItemRegex = new RegExp(this.side.foe.id + '.*\\[from\\] item: (.*)$');
 		var itemRegex = new RegExp('^\\|-.{0,3}item\\|'+this.side.foe.id);
-		// determine enemy abilities
+		// determine enemy abilities were revealed
 		var fromAbilityRegex = new RegExp(this.side.foe.id + '.*\\[from\\] ability: (.*)$');
 		var fromFoeAbilityRegex = new RegExp('.*\\[from\\] ability: (.*)\|[of]' + this.side.foe.id);
 		var abilityRegex = new RegExp('^\\|-.{0,3}ability\\|'+this.side.foe.id);
@@ -315,30 +315,6 @@ class GameState {
 			default:
 				// assume request = "" aka wait
 				this.state[234] = 0;
-		}
-
-		// determine the moves taken in the last turn
-		var lastLog = this.side.battle.log.slice(this.side.battle.sentLogPos);
-		var myMoveRegex = new RegExp('^\\|move\\|'.concat(this.side.id,"[abc]"));
-		var foeMoveRegex = new RegExp("^\\|move\\|".concat(this.side.foe.id,"[abc]"));
-		var moveRegex = /^\|move\|.*\|(.*)\|/;
-		// if no move, vector should show 0
-		this.state[235] = 0;
-		this.state[236] = 0;
-		// determine enemy items
-		var fromItemRegex = new RegExp(this.side.foe.id + '.*\\[from\\] item: (.*)$');
-		var itemRegex = new RegExp('^\\|-.?.?.?item\\|'+this.side.foe.id);
-		for (var line in lastLog) {
-			if (lastLog[line].match(myMoveRegex)) {
-				// my last move
-				this.state[235] = this.getMoveNumber(lastLog[line].match(moveRegex)[1]);
-			} else if (lastLog[line].match(foeMoveRegex)) {
-				// foe last move
-				this.state[236] = this.getMoveNumber(lastLog[line].match(moveRegex)[1]);
-			} else if (lastLog[line].match(fromItemRegex) || lastLog[line].match(itemRegex)) {
-				var item = this.side.foe.pokemon[0].item;
-				this.state[129] = item == "" ? 0 : this.itemdex[item];
-			}
 		}
 
 		return this.state;
