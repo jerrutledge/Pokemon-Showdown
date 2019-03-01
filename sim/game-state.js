@@ -139,6 +139,7 @@ class GameState {
 		this.side = side;
 
 		// generate unique pokemon ids
+		/** @type {array[]} */
 		this.pokedex = [];
 		var i = 1;
 		var object = this.side.battle.dataCache.Pokedex;
@@ -147,10 +148,13 @@ class GameState {
 			i++;
 		}
 		// generate move ids for allied pokemon
+		/** @type {array[]} */
 		this.allyMovedex = [];
 		// get move numbers for enemy pokemon
+		/** @type {array[]} */
 		this.foeMovedex = [];
 		// translate from move's readable name to move id
+		/** @type {array[]} */
 		this.moveTranslation = [];
 		var i = 1;
 		var object = this.side.battle.dataCache.Movedex;
@@ -161,12 +165,15 @@ class GameState {
 			i++;
 		}
 		// load item ids
+		/** @type {array[]} */
 		this.itemdex = [];
 		var object = this.side.battle.dataCache.Items;
 		for (var entry in object) {
 			this.itemdex[entry.toString()] = object[entry].num;
 		}
+
 		// load ability ids
+		/** @type {array[]} */
 		this.abilitydex = [];
 		var object = this.side.battle.dataCache.Abilities;
 		for (var entry in object) {
@@ -174,6 +181,7 @@ class GameState {
 		}
 
 		// status numbers
+		/** @type {array[String]} */
 		this.statusConverter = [];
 		this.statusConverter["fnt"] = 1;
 		this.statusConverter["brn"] = 2;
