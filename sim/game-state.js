@@ -190,7 +190,7 @@ class GameState {
 		this.statusConverter["psn"] = 6;
 		this.statusConverter["tox"] = 7;
 		
-
+		/** @type {array[int]} */
 		this.state = [
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
 			0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
@@ -263,9 +263,9 @@ class GameState {
 		}
 
 		// mypokemon1 current type
-		this.state[216] = 0;
+		this.state[216] = this.side.active[0] == null ? 0 : this.getTypeNumber(this.side.active[0].types);
 		// mypokemon1 current ability
-		this.state[217] = 0;
+		this.state[217] = this.side.active[0] == null ? 0 : this.abilitydex[this.side.active[0].ability];
 		// mypokemon1 atk boost
 		this.state[218] = this.side.active[0] == null ? 0 : this.side.active[0].boosts.atk;
 		// mypokemon1 def boost
@@ -282,9 +282,15 @@ class GameState {
 		this.state[224] = this.side.active[0] == null ? 0 : this.side.active[0].boosts.evasion;
 
 		// foepokemon1 current type
-		this.state[225] = 0;
+		this.state[225] = this.side.foe.active[0] == null ? 0 : this.getTypeNumber(this.side.foe.active[0].types);
 		// foepokemon1 current ability
-		this.state[226] = -1; // unknown
+		if (this.side.foe.active[0] == null) {
+			this.state[226] = 0;
+		} else if (this.side.foe.active.revealAbility == true) {
+			this.state[226] = this.abilitydex[this.side.foe.active[0].ability];
+		} else {
+			this.state[226] = -1;
+		}
 		// foepokemon1 atk boost
 		this.state[227] = this.side.foe.active[0] == null ? 0 : this.side.foe.active[0].boosts.atk;
 		// foepokemon1 def boost
@@ -438,8 +444,41 @@ class GameState {
 		return moveNumber;
 	}
 
+	/**
+	 * @param {array[]} type
+	 */
 	getTypeNumber(type) {
-		// number corresponding to unique typing
+		var returnType = 0;
+
+		/** @type {array[int]} */
+		var typeConversion = [];
+		typeConversion["NORMAL"] = 1;
+		typeConversion["Normal"] = 1;
+		typeConversion["Fire"] = 2;
+		typeConversion["Water"] = 3;
+		typeConversion["Electric"] = 4;
+		typeConversion["Grass"] = 5;
+		typeConversion["Ice"] = 6;
+		typeConversion["Fighting"] = 7;
+		typeConversion["Poison"] = 8;
+		typeConversion["Ground"] = 9;
+		typeConversion["Flying"] = 10;
+		typeConversion["Psychic"] = 11;
+		typeConversion["Bug"] = 12;
+		typeConversion["Rock"] = 13;
+		typeConversion["Ghost"] = 14;
+		typeConversion["Dragon"] = 15;
+		typeConversion["Dark"] = 16;
+		typeConversion["Steel"] = 17;
+		typeConversion["Fairy"] = 18;
+
+		if (type.length == 0) {
+			// wtf no type
+			return 0;
+		} else for (var i = type.length - 1; i >= 0; i--) {
+			returnType += typeConversion[type[i]] * Math.pow(20, i);
+		}
+		return returnType;
 	}
 }
 

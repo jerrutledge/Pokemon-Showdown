@@ -55,3 +55,4 @@ local_settings.py
 pip-log.txt
 
 sim/battlerecord.txt
+sim/battle-input.txt
