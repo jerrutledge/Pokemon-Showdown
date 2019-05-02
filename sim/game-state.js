@@ -260,6 +260,7 @@ class GameState {
 			// foepokemon1 moves
 			for (var i = 0; i < Object.keys(this.foeMovedex).length; i++) {
 				this.state.concat(-1);
+				this.state = this.state.concat(-1);
 			}
 			// foepokemon1 status (permanent status like poison, faint)
 			for (var i = 0; i < Object.keys(this.statusdex).length; i++) {
@@ -267,8 +268,8 @@ class GameState {
 			}
 		}
 		/** @type {int} */
-		this.foePokemonLength = 5 + Object.keys(this.pokedex).length + Object.keys(this.itemdex).length + 
-			Object.keys(this.abilitydex).length + Object.keys(this.allyMovedex).length + Object.keys(this.statusdex).length;
+		this.foePokemonLength = 4 + Object.keys(this.pokedex).length + Object.keys(this.itemdex).length + 
+			Object.keys(this.abilitydex).length + Object.keys(this.foeMovedex).length + Object.keys(this.statusdex).length;
 
 		// // status effects for enemy side
 		/** @type {int} */
