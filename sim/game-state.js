@@ -181,20 +181,20 @@ class GameState {
 				this.state = this.state.concat(0);
 			}
 			// mypokemon1 item
-			for (var i = 0; i < Object.keys(this.itemdex).length; i++) {
+			for (var i = Object.keys(this.itemdex).length - 1; i >= 0; i--) {
 				this.state = this.state.concat(0);
 			}
 			// mypokemon1 ability
-			for (var i = 0; i < Object.keys(this.abilitydex).length; i++) {
+			for (var i = Object.keys(this.abilitydex).length - 1; i >= 0; i--) {
 				this.state = this.state.concat(0);
 			}
 			// mypokemon1 moves (one entry for each unique move in the game)
 			// 		(value = pp the move has)
-			for (var i = 0; i < Object.keys(this.allyMovedex).length; i++) {
+			for (var i = Object.keys(this.allyMovedex).length - 1; i >= 0; i--) {
 				this.state = this.state.concat(0);
 			}
 			// mypokemon1 status (permanent status like poison, faint)
-			for (var i = 0; i < Object.keys(this.statusdex).length; i++) {
+			for (var i = Object.keys(this.statusdex).length - 1; i >= 0; i--) {
 				this.state = this.state.concat(0);
 			}
 		}
@@ -207,11 +207,11 @@ class GameState {
 		/** @type {int} */
 		this.myStatusIndex = Object.keys(this.state).length;
 		// mypokemon1 hasType (true or false for every type)
-		for (var i = 0; i < Object.keys(this.types).length; i++) {
+		for (var i = Object.keys(this.types).length - 1; i >= 0; i--) {
 			this.state = this.state.concat(0);
 		}
 		// mypokemon1 current ability
-		for (var i = 0; i < Object.keys(this.abilitydex).length; i++) {
+		for (var i = Object.keys(this.abilitydex).length - 1; i >= 0; i--) {
 			this.state = this.state.concat(0);
 		}
 		// mypokemon1 atk boost
@@ -250,20 +250,19 @@ class GameState {
 				this.state = this.state.concat(0);
 			}
 			// foepokemon1 item
-			for (var i = 0; i < Object.keys(this.itemdex).length; i++) {
+			for (var i = Object.keys(this.itemdex).length - 1; i >= 0; i--) {
 				this.state = this.state.concat(0);
 			}
 			// foepokemon1 ability
-			for (var i = 0; i < Object.keys(this.abilitydex).length; i++) {
+			for (var i = Object.keys(this.abilitydex).length - 1; i >= 0; i--) {
 				this.state = this.state.concat(0);
 			}
 			// foepokemon1 moves
-			for (var i = 0; i < Object.keys(this.foeMovedex).length; i++) {
-				this.state.concat(-1);
+			for (var i = Object.keys(this.foeMovedex).length - 1; i >= 0; i--) {
 				this.state = this.state.concat(-1);
 			}
 			// foepokemon1 status (permanent status like poison, faint)
-			for (var i = 0; i < Object.keys(this.statusdex).length; i++) {
+			for (var i = Object.keys(this.statusdex).length - 1; i >= 0; i--) {
 				this.state = this.state.concat(0);
 			}
 		}
@@ -275,11 +274,11 @@ class GameState {
 		/** @type {int} */
 		this.foeStatusIndex = Object.keys(this.state).length;
 		// foepokemon1 hasType (true or false for every type)
-		for (var i = 0; i < Object.keys(this.types).length; i++) {
+		for (var i = Object.keys(this.types).length - 1; i >= 0; i--) {
 			this.state = this.state.concat(0);
 		}
 		// foepokemon1 current ability (once learned)
-		for (var i = 0; i < Object.keys(this.abilitydex).length; i++) {
+		for (var i = Object.keys(this.abilitydex).length - 1; i >= 0; i--) {
 			this.state = this.state.concat(0);
 		}
 		// foepokemon1 atk boost
@@ -335,11 +334,11 @@ class GameState {
 		/** @type {int} */
 		this.lastMoveIndex = Object.keys(this.state).length;
 		// mypokemon1 lastmove
-		for (var i = 0; i < Object.keys(this.allyMovedex).length; i++) {
+		for (var i = Object.keys(this.allyMovedex).length - 1; i >= 0; i--) {
 			this.state = this.state.concat(0);
 		}
 		// foepokemon1 lastmove 
-		for (var i = 0; i < Object.keys(this.foeMovedex).length; i++) {
+		for (var i = Object.keys(this.foeMovedex).length - 1; i >= 0; i--) {
 			this.state = this.state.concat(0);
 		}
 
