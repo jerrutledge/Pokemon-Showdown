@@ -56,3 +56,4 @@ pip-log.txt
 
 sim/battlerecord.txt
 sim/battle-input.txt
+sim/*.txt
