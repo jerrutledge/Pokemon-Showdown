@@ -37,18 +37,18 @@ class RandomPlayerAI extends BattleStreams.BattlePlayer {
 		var gameStateLog = "\n" + request.side.id;
 		for (var i = 0; i <= 5; i++) {
 			gameStateLog += "\nAlly" + i + ":" + 
-				request.side.gameState.slice(i * 21, (i + 1) * 21);
+				request.side.gameState.slice(i * 2445, (i + 1) * 2445);
 		}
+		gameStateLog += "\nMyStatus:   " + 
+			request.side.gameState.slice(14670, 14932);
 		for (var i = 0; i <= 5; i++) {
 			gameStateLog += "\nFoeP" + i + ":" + 
-				request.side.gameState.slice(126 + i * 15, 126 + (i + 1) * 15);
+				request.side.gameState.slice(14933 + i * 2440, 14933 + (i + 1) * 2440);
 		}
-		gameStateLog += "\nMyState:   " + 
-			request.side.gameState.slice(216, 225);
-		gameStateLog += "\nFoeState: " + 
-			request.side.gameState.slice(225, 234);
+		gameStateLog += "\nFoeStatus: " + 
+			request.side.gameState.slice(25109, 25372);
 		gameStateLog += "\nGameState/Moves: " + 
-			request.side.gameState.slice(234);
+			request.side.gameState.slice(26872);
 		console.log(gameStateLog);
 
 		if (request.wait) {
