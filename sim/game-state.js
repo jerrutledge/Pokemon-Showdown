@@ -114,13 +114,13 @@ class GameState {
 		// status numbers
 		/** @type {array[String]} */
 		this.statusdex = [];
-		this.statusdex["fnt"] = 1;
-		this.statusdex["brn"] = 2;
-		this.statusdex["par"] = 3;
-		this.statusdex["slp"] = 4;
-		this.statusdex["frz"] = 5;
-		this.statusdex["psn"] = 6;
-		this.statusdex["tox"] = 7;
+		this.statusdex["fnt"] = 0;
+		this.statusdex["brn"] = 1;
+		this.statusdex["par"] = 2;
+		this.statusdex["slp"] = 3;
+		this.statusdex["frz"] = 4;
+		this.statusdex["psn"] = 5;
+		this.statusdex["tox"] = 6;
 
 		// type numbers
 		/** @type {array[int]} */
@@ -426,7 +426,7 @@ class GameState {
 
 		// foe pokemon status
 		if (!(this.side.foe.active[0] == null)) {
-			var args = [this.myStatusIndex, this.pokemonStatusLength];
+			var args = [this.foeStatusIndex, this.pokemonStatusLength];
 			args = args.concat(this.getPokemonStatus(this.side.foe.active[0], false));
 			Array.prototype.splice.apply(this.state, args);
 		}
@@ -460,7 +460,7 @@ class GameState {
 	getAllyPokemonVector(pokemon) {
 		var pokemonStateVector = [];
 		for (var i = 0; i < this.myPokemonLength; i++) {
-			pokemonStateVector.concat(0);
+			pokemonStateVector = pokemonStateVector.concat(0);
 		}
 
 		// index variable, to keep track of position in array
@@ -517,7 +517,7 @@ class GameState {
 		index += Object.keys(this.allyMovedex).length;
 		// pokemon status (permanent status like poison, faint)
 		if (pokemon.status != "" && this.statusdex[pokemon.status] != null) {
-			pokemonStateVector[this.statusdex[pokemon.status]] = 1;
+			pokemonStateVector[index + this.statusdex[pokemon.status]] = 1;
 		}
 
 
@@ -537,7 +537,7 @@ class GameState {
 	getFoePokemonVector(pokemon) {
 		var pokemonStateVector = [];
 		for (var i = 0; i < this.foePokemonLength; i++) {
-			pokemonStateVector.concat(0);
+			pokemonStateVector = pokemonStateVector.concat(0);
 		}
 
 		// index variable, to keep track of position in array
@@ -610,7 +610,7 @@ class GameState {
 	getPokemonStatus(pokemon, revealAbility) {
 		var pokemonStatusVector = [];
 		for (var i = 0; i < this.pokemonStatusLength; i++) {
-			pokemonStatusVector.concat(0);
+			pokemonStatusVector = pokemonStatusVector.concat(0);
 		}
 
 		var index = 0;
