@@ -8,55 +8,66 @@ TODO:
 // WIP
 !!	weather
 !!	terrain
-!	trick room
-	gravity
-	magic room
-	mud sport
-	water sport
+	trick room
 	wonder room
-	side reflect
-	side light screen
+	magic room
+	gravity
+	water sport
+	mud sport
 	side aurora veil
-!!	side spikes
-!!	side toxic spikes
-!!	side stealth rock
-!!	side sticky web
-	side lucky chant
-	side safeguard
-	side tailwind
-	side wish
-	side canZmove
 	side canMegaEvolve
-!!	activePokemon confusion
-	activePokemon infatuated
-!	activePokemon leech seed
-!	activePokemon ingrain
+	side canZmove
+	side heal block
+	side light screen
+	side lucky chant
+	side mist
+	side reflect
+	side safeguard
+	side spikes
+	side stealth rock
+	side sticky web
+	side tailwind
+	side toxic spikes
+	side wish
 	activePokemon aqua ring
-!	activePokemon can switch
-!!	activePokemon substitute
-	activePokemon surehit
+	activePokemon bound
+	activePokemon can switch
+	activePokemon confusion
+	activePokemon critratio
 	activePokemon curse
 	activePokemon embargo
+	activePokemon encore
+	activePokemon encore
+	activePokemon focus energy
+	activePokemon foresight
 	activePokemon gastro acid
+	activePokemon heal block
+	activePokemon identified
+	activePokemon imprison
+	activePokemon imprisoned
+	activePokemon infatuated
+	activePokemon ingrain
+	activePokemon laser focus
+	activePokemon leech seed
 	activePokemon magnet rise
+	activePokemon miracle eye
+	activePokemon move1 disabled
+	activePokemon move2 disabled
+	activePokemon move3 disabled
+	activePokemon move4 disabled
+	activePokemon nightmare
+	activePokemon odor sleuth
 	activePokemon perish song
 	activePokemon power trick
-	activePokemon telekinesis
-!	activePokemon move1 disabled
-!	activePokemon move2 disabled
-!	activePokemon move3 disabled
-!	activePokemon move4 disabled
-!	activePokemon encore
-!!	activePokemon taunt
-	activePokemon critratio
-	activePokemon heal block
-	activePokemon imprison
-	activePokemon nightmare
-	activePokemon miracle eye
-	activePokemon odor sleuth
 	activePokemon stockpile
-	activePokemon yawn
+	activePokemon substitute
+	activePokemon surehit
+	activePokemon taking aim
+	activePokemon taunt
+	activePokemon telekinesis
+	activePokemon torment
 	activePokemon trapped
+	activePokemon yawn
 
 */
 
@@ -320,15 +331,15 @@ class GameState {
 		this.state = this.state.concat(0);
 		// trick room
 		this.state = this.state.concat(0);
-		// gravity
+		// wonder room
 		this.state = this.state.concat(0);
 		// magic room
+		this.state = this.state.concat(0);
+		// gravity
 		this.state = this.state.concat(0);
 		// mud sport
 		this.state = this.state.concat(0);
 		// water sport
-		this.state = this.state.concat(0);
-		// wonder room
 		this.state = this.state.concat(0);
 
 		/** @type {int} */
