@@ -55,6 +55,7 @@ TODO:
 	activePokemon move2 disabled
 	activePokemon move3 disabled
 	activePokemon move4 disabled
+	activePokemon mustrecharge
 	activePokemon nightmare
 	activePokemon odor sleuth
 	activePokemon perish song
@@ -155,6 +156,42 @@ class GameState {
 		this.types["Dark"] = 16;
 		this.types["Steel"] = 17;
 		this.types["Fairy"] = 18;
+
+		// volatiles
+		/** @type {array[int]} */
+		this.volatiles = [];
+		this.volatiles["aquaring"] = 0;
+		this.volatiles["attract"] = 1;
+		this.volatiles["charge"] = 2;
+		this.volatiles["confusion"] = 3;
+		this.volatiles["curse"] = 4;
+		this.volatiles["embargo"] = 5;
+		this.volatiles["encore"] = 6;
+		this.volatiles["focusenergy"] = 7;
+		this.volatiles["foresight"] = 8;
+		this.volatiles["gastroacid"] = 9;
+		this.volatiles["healblock"] = 10;
+		this.volatiles["imprison"] = 11;
+		this.volatiles["ingrain"] = 12;
+		this.volatiles["laserfocus"] = 13;
+		this.volatiles["leechseed"] = 14;
+		this.volatiles["magnetrise"] = 15;
+		this.volatiles["miracleeye"] = 16;
+		this.volatiles["mustrecharge"] = 17;
+		this.volatiles["nightmare"] = 18;
+		this.volatiles["powertrick"] = 19;
+		this.volatiles["telekinesis"] = 20;
+		this.volatiles["torment"] = 21;
+		this.volatiles["yawn"] = 22;
+		// partiallytrapped
+		// activePokemon trapped
+		// activePokemon substitute
+		// activePokemon taunt
+		// activePokemon lockedmove
+		// activePokemon perish song
+		// activePokemon stockpile
+		// disable
+		// activePokemon lockon
 		
 
 
