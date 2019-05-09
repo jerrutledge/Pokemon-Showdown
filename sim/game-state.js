@@ -2,9 +2,102 @@
 
 // 'use strict';
 
-/*
-TODO:
 
+/********************************************************************/
+/*                       Vector Structure                           */
+/********************************************************************/
+
+// // ally pokemon, values are always known
+// mypokemon1 level
+// mypokemon1 male
+// mypokemon1 female
+// mypokemon1 hp (real value)
+// mypokemon1 max hp
+// mypokemon1 atk
+// mypokemon1 def
+// mypokemon1 spa
+// mypokemon1 spd
+// mypokemon1 spe
+// mypokemon1 id
+// mypokemon1 item
+// mypokemon1 ability
+// mypokemon1 moves (one entry for each unique move in the game)
+// 		(value = pp the move has)
+// mypokemon1 status (permanent status like poison, faint)
+
+
+// // status effects for my side
+// mypokemon1 atk boost
+// mypokemon1 def boost
+// mypokemon1 spa boost
+// mypokemon1 spd boost
+// mypokemon1 spe boost
+// mypokemon1 accuracy boost
+// mypokemon1 evasion boost
+// mypokemon1 hasType (true or false for every type)
+// mypokemon1 current ability
+
+
+// // foe pokemon, begin as -1 = not known, changed to known from battle stack
+// foepokemon1 level (always known)
+// foepokemon1 male (always known)
+// foepokemon1 female (always known)
+// foepokemon1 hp (always known as % of full)
+// foepokemon1 id (always known)
+// foepokemon1 item
+// foepokemon1 ability
+// foepokemon1 moves
+// foepokemon1 status (permanent status like poison, faint)
+
+
+// // status effects for enemy side
+// foepokemon1 atk boost
+// foepokemon1 def boost
+// foepokemon1 spa boost
+// foepokemon1 spd boost
+// foepokemon1 spe boost
+// foepokemon1 accuracy boost
+// foepokemon1 evasion boost
+// foepokemon1 hasType (true or false for every type)
+// foepokemon1 current ability (once learned)
+
+
+// // stage battle effects
+// value 0 = not in effect
+// value = number of turns left
+// rain
+// sun
+// hail
+// sandstorm
+// electric terrain
+// grassy terrain
+// misty terrain
+// psychic terrain
+// trick room
+// wonder room
+// magic room
+// gravity
+// mud sport
+// water sport
+
+
+// // last moves
+// mypokemon1 lastmove
+// foepokemon1 lastmove
+
+
+// // game state
+// win
+// loss
+// move request
+// switch request
+// choosepokemon
+// failed choice
+
+
+
+/*
+// TODO:
 // WIP
 !!	weather
 !!	terrain
@@ -107,6 +200,10 @@ class GameState {
 			this.moveTranslation[object[entry].name] = object[entry].num;
 			i++;
 		}
+		/** @type {int} */
+		this.allyLastMove = 0;
+		/** @type {int} */
+		this.foeLastMove = 0;
 		// load item ids
 		/** @type {array[]} */
 		this.itemdex = [];
@@ -192,219 +289,6 @@ class GameState {
 		// activePokemon stockpile
 		// disable
 		// activePokemon lockon
-		
-
-
-		/********************************************************************/
-		/*                       Vector Structure                           */
-		/********************************************************************/
-
-		/** @type {array[int]} */
-		this.state = [];
-
-		// ally pokemon, contains actual values
-		for (var j = 0; j < 6; j++) {
-			// mypokemon1 level
-			this.state = this.state.concat(0);
-			// mypokemon1 male
-			this.state = this.state.concat(0);
-			// mypokemon1 female
-			this.state = this.state.concat(0);
-			// mypokemon1 hp (real value)
-			this.state = this.state.concat(0);
-			// mypokemon1 max hp
-			this.state = this.state.concat(0);
-			// mypokemon1 atk
-			this.state = this.state.concat(0);
-			// mypokemon1 def
-			this.state = this.state.concat(0);
-			// mypokemon1 spa
-			this.state = this.state.concat(0);
-			// mypokemon1 spd
-			this.state = this.state.concat(0);
-			// mypokemon1 spe
-			this.state = this.state.concat(0);
-			// mypokemon1 id
-			for (var i = Object.keys(this.pokedex).length - 1; i >= 0; i--) {
-				this.state = this.state.concat(0);
-			}
-			// mypokemon1 item
-			for (var i = Object.keys(this.itemdex).length - 1; i >= 0; i--) {
-				this.state = this.state.concat(0);
-			}
-			// mypokemon1 ability
-			for (var i = Object.keys(this.abilitydex).length - 1; i >= 0; i--) {
-				this.state = this.state.concat(0);
-			}
-			// mypokemon1 moves (one entry for each unique move in the game)
-			// 		(value = pp the move has)
-			for (var i = Object.keys(this.allyMovedex).length - 1; i >= 0; i--) {
-				this.state = this.state.concat(0);
-			}
-			// mypokemon1 status (permanent status like poison, faint)
-			for (var i = Object.keys(this.statusdex).length - 1; i >= 0; i--) {
-				this.state = this.state.concat(0);
-			}
-		}
-		/** @type {int} */
-		this.myPokemonLength = 10 + Object.keys(this.pokedex).length + Object.keys(this.itemdex).length + 
-			Object.keys(this.abilitydex).length + Object.keys(this.allyMovedex).length + Object.keys(this.statusdex).length;
-
-		
-		// status effects for my side
-		/** @type {int} */
-		this.myStatusIndex = Object.keys(this.state).length;
-		// mypokemon1 hasType (true or false for every type)
-		for (var i = Object.keys(this.types).length - 1; i >= 0; i--) {
-			this.state = this.state.concat(0);
-		}
-		// mypokemon1 current ability
-		for (var i = Object.keys(this.abilitydex).length - 1; i >= 0; i--) {
-			this.state = this.state.concat(0);
-		}
-		// mypokemon1 atk boost
-		this.state = this.state.concat(0);
-		// mypokemon1 def boost
-		this.state = this.state.concat(0);
-		// mypokemon1 spa boost
-		this.state = this.state.concat(0);
-		// mypokemon1 spd boost
-		this.state = this.state.concat(0);
-		// mypokemon1 spe boost
-		this.state = this.state.concat(0);
-		// mypokemon1 accuracy boost
-		this.state = this.state.concat(0);
-		// mypokemon1 evasion boost
-		this.state = this.state.concat(0);
-		/** @type {int} */
-		this.pokemonStatusLength = 7 + Object.keys(this.types).length + Object.keys(this.abilitydex).length;
-
-
-
-		/** @type {int} */
-		this.foePokemonIndex = Object.keys(this.state).length;
-		// // foe pokemon, begin as -1 = not known, changed to known from battle stack
-		for (var j = 0; j < 6; j++) {
-			// foepokemon1 level (always known)
-			this.state = this.state.concat(0);
-			// foepokemon1 male (always known)
-			this.state = this.state.concat(0);
-			// foepokemon1 female (always known)
-			this.state = this.state.concat(0);
-			// foepokemon1 hp (always known as % of full)
-			this.state = this.state.concat(0);
-			// foepokemon1 id (always known)
-			for (var i = Object.keys(this.pokedex).length - 1; i >= 0; i--) {
-				this.state = this.state.concat(0);
-			}
-			// foepokemon1 item
-			for (var i = Object.keys(this.itemdex).length - 1; i >= 0; i--) {
-				this.state = this.state.concat(0);
-			}
-			// foepokemon1 ability
-			for (var i = Object.keys(this.abilitydex).length - 1; i >= 0; i--) {
-				this.state = this.state.concat(0);
-			}
-			// foepokemon1 moves
-			for (var i = Object.keys(this.foeMovedex).length - 1; i >= 0; i--) {
-				this.state = this.state.concat(-1);
-			}
-			// foepokemon1 status (permanent status like poison, faint)
-			for (var i = Object.keys(this.statusdex).length - 1; i >= 0; i--) {
-				this.state = this.state.concat(0);
-			}
-		}
-		/** @type {int} */
-		this.foePokemonLength = 4 + Object.keys(this.pokedex).length + Object.keys(this.itemdex).length + 
-			Object.keys(this.abilitydex).length + Object.keys(this.foeMovedex).length + Object.keys(this.statusdex).length;
-
-		// // status effects for enemy side
-		/** @type {int} */
-		this.foeStatusIndex = Object.keys(this.state).length;
-		// foepokemon1 hasType (true or false for every type)
-		for (var i = Object.keys(this.types).length - 1; i >= 0; i--) {
-			this.state = this.state.concat(0);
-		}
-		// foepokemon1 current ability (once learned)
-		for (var i = Object.keys(this.abilitydex).length - 1; i >= 0; i--) {
-			this.state = this.state.concat(0);
-		}
-		// foepokemon1 atk boost
-		this.state = this.state.concat(0);
-		// foepokemon1 def boost
-		this.state = this.state.concat(0);
-		// foepokemon1 spa boost
-		this.state = this.state.concat(0);
-		// foepokemon1 spd boost
-		this.state = this.state.concat(0);
-		// foepokemon1 spe boost
-		this.state = this.state.concat(0);
-		// foepokemon1 accuracy boost
-		this.state = this.state.concat(0);
-		// foepokemon1 evasion boost
-		this.state = this.state.concat(0);
-
-
-		// stage battle effects
-		// value 0 = not in effect
-		// value = number of turns left
-		/** @type {int} */
-		this.globalStatusIndex = Object.keys(this.state).length;
-		// rain
-		this.state = this.state.concat(0);
-		// sun
-		this.state = this.state.concat(0);
-		// hail
-		this.state = this.state.concat(0);
-		// sandstorm
-		this.state = this.state.concat(0);
-		// electric terrain
-		this.state = this.state.concat(0);
-		// grassy terrain
-		this.state = this.state.concat(0);
-		// misty terrain
-		this.state = this.state.concat(0);
-		// psychic terrain
-		this.state = this.state.concat(0);
-		// trick room
-		this.state = this.state.concat(0);
-		// wonder room
-		this.state = this.state.concat(0);
-		// magic room
-		this.state = this.state.concat(0);
-		// gravity
-		this.state = this.state.concat(0);
-		// mud sport
-		this.state = this.state.concat(0);
-		// water sport
-		this.state = this.state.concat(0);
-
-		/** @type {int} */
-		this.lastMoveIndex = Object.keys(this.state).length;
-		// mypokemon1 lastmove
-		for (var i = Object.keys(this.allyMovedex).length - 1; i >= 0; i--) {
-			this.state = this.state.concat(0);
-		}
-		// foepokemon1 lastmove 
-		for (var i = Object.keys(this.foeMovedex).length - 1; i >= 0; i--) {
-			this.state = this.state.concat(0);
-		}
-
-		// game state
-		/** @type {int} */
-		this.gameStateIndex = Object.keys(this.state).length;
-		// win
-		this.state = this.state.concat(0);
-		// loss
-		this.state = this.state.concat(0);
-		// move request
-		this.state = this.state.concat(0);
-		// switch request
-		this.state = this.state.concat(0);
-		// choosepokemon
-		this.state = this.state.concat(0);
-		// failed choice
-		this.state = this.state.concat(0);
 	}
 
 	/**
@@ -412,23 +296,22 @@ class GameState {
 	 */
 	getGameState() {
 		// called for every request
-		// returns input vector for neural network
+		// returns input string to be parsed by python
 
-		// first, your six pokemon
-		for (var i = 0; i<this.side.pokemon.length; i++) {
-			args = [i*this.myPokemonLength,this.myPokemonLength];
-			args = args.concat(this.getAllyPokemonVector(this.side.pokemon[i]));
-			Array.prototype.splice.apply(this.state, args);
-		}
+		var state = "";
+
+
+		// look at log from the last turn
 
 		// determine the moves taken in the last turn
 		var myMoveRegex = new RegExp('^\\|move\\|'.concat(this.side.id,"[abc]"));
 		var foeMoveRegex = new RegExp("^\\|move\\|".concat(this.side.foe.id,"[abc]"));
 		var moveRegex = /^\|move\|.*\|(.*)\|/;
-		// if no move, vector should show 0
-		for (var i = 0; i < Object.keys(this.allyMovedex).length + this.foeMovedex; i++) {
-			this.state[this.lastMoveIndex + i] = 0;
-		}
+		// if no moves, move number should be -1
+		// TODO
+		// var moveOrderIndex = 0;
+		this.allyLastMove = -1;
+		this.foeLastMove = -1;
 		// determine if enemy items were revealed
 		var fromItemRegex = new RegExp(this.side.foe.id + '.*\\[from\\] item: (.*)$');
 		var itemRegex = new RegExp('^\\|-.{0,3}item\\|'+this.side.foe.id);
@@ -437,16 +320,15 @@ class GameState {
 		var fromFoeAbilityRegex = new RegExp('.*\\[from\\] ability: (.*)\|[of]' + this.side.foe.id);
 		var abilityRegex = new RegExp('^\\|-.{0,3}ability\\|'+this.side.foe.id);
 
-		// look at log from the last turn
 		var lastLog = this.side.battle.log.slice(this.side.battle.sentLogPos);
 		for (var line in lastLog) {
 			if (lastLog[line].match(myMoveRegex)) {
 				// my last move
-				this.state[this.lastMoveIndex + this.getMoveNumber(lastLog[line].match(moveRegex)[1])] = 1;
+				this.allyLastMove = this.getMoveNumber(lastLog[line].match(moveRegex)[1]);
 			} else if (lastLog[line].match(foeMoveRegex)) {
 				// foe last move
 				var moveName = lastLog[line].match(moveRegex)[1];
-				this.state[this.lastMoveIndex + Object.keys(this.allyMovedex).length + this.getMoveNumber(moveName)] = 1;
+				this.foeLastMove = this.getMoveNumber(moveName);
 				// if no match, must be a Z move, no need to record
 			} else if (lastLog[line].match(fromItemRegex) || lastLog[line].match(itemRegex)) {
 				this.side.foe.pokemon[0].revealItem = true;
@@ -458,197 +340,123 @@ class GameState {
 			}
 		}
 
-		// then, their six pokemon
-		for (var i = this.side.foe.pokemon.length - 1; i >= 0; i--) {
-			args = [this.foePokemonIndex+i*this.foePokemonLength,this.foePokemonLength];
-			args = args.concat(this.getFoePokemonVector(this.side.foe.pokemon[i]))
-			Array.prototype.splice.apply(this.state, args);
+
+		// construct the state string
+
+		// first, your six pokemon
+		for (var i = 0; i<this.side.pokemon.length; i++) {
+			state += this.getPokemonVector(this.side.pokemon[i], true);
 		}
 
 		// my pokemon status
-		if (!(this.side.active[0] == null)) {
-			var args = [this.myStatusIndex, this.pokemonStatusLength];
-			args = args.concat(this.getPokemonStatus(this.side.active[0], true));
-			Array.prototype.splice.apply(this.state, args);
+		state += this.getPokemonStatus(this.side.active[0], true);
+
+		// then, their six pokemon
+		for (var i = this.side.foe.pokemon.length - 1; i >= 0; i--) {
+			state += this.getPokemonVector(this.side.foe.pokemon[i], false);
 		}
 
 		// foe pokemon status
-		if (!(this.side.foe.active[0] == null)) {
-			var args = [this.foeStatusIndex, this.pokemonStatusLength];
-			args = args.concat(this.getPokemonStatus(this.side.foe.active[0], false));
-			Array.prototype.splice.apply(this.state, args);
-		}
+		state += this.getPokemonStatus(this.side.foe.active[0], false);
 
 
 		
+		// TODO 
 		// determine the request
-		// gamestate changes every round
-		for (var i = 0; i < 6; i++) {
-			this.state[this.gameStateIndex + i] = 0;
-		}
 		switch (this.side.currentRequest) {
 			// pokemon choice & win/loss never reaches here
 			case "teampreview":
-				this.state[this.gameStateIndex + 4] = 1;
+				state += "(4/6)";
 				break;
 			case "switch":
-				this.state[this.gameStateIndex + 3] = 1;
+				state += "(3/6)";
 				break;
 			case "move":
-				this.state[this.gameStateIndex + 2] = 1;
+				state += "(2/6)";
 				break;
 		}
 
-		return this.state;
+		// take off the last comma?
+		return state;
 	}
 
 	/**
 	 * @param {Pokemon} pokemon
+	 * @param {boolean} ally
 	 */
-	getAllyPokemonVector(pokemon) {
-		var pokemonStateVector = [];
-		for (var i = 0; i < this.myPokemonLength; i++) {
-			pokemonStateVector = pokemonStateVector.concat(0);
-		}
+	getPokemonVector(pokemon, ally) {
+		var pokemonState = "";
 
-		// index variable, to keep track of position in array
-		var index = 0;
-
-		// pokemon status (permanent status like poison, faint)
-		pokemonStateVector[14] = ((pokemon.status == "" || this.statusdex[pokemon.status] == null) ? 0 : this.statusdex[pokemon.status]);
 		// pokemon level
-		pokemonStateVector[index] = pokemon.level;
-		index++;
+		pokemonState += pokemon.level + ",";
 		// pokemon male
-		pokemonStateVector[index] = pokemon.gender == "M" ? 1 : 0;
-		index++;
+		pokemonState += (pokemon.gender == "M" ? 1 : 0) + ",";
 		// pokemon female
-		pokemonStateVector[index] = pokemon.gender == "F" ? 1 : 0;
-		index++;
-		// pokemon hp (real value)
-		pokemonStateVector[index] = pokemon.hp;
-		index++;
-		// pokemon max hp
-		pokemonStateVector[index] = pokemon.maxhp;
-		index++;
-		// pokemon atk
-		pokemonStateVector[index] = pokemon.stats.atk;
-		index++;
-		// pokemon def
-		pokemonStateVector[index] = pokemon.stats.def;
-		index++;
-		// pokemon spa
-		pokemonStateVector[index] = pokemon.stats.spa;
-		index++;
-		// pokemon spd
-		pokemonStateVector[index] = pokemon.stats.spd;
-		index++;
-		// pokemon spe
-		pokemonStateVector[index] = pokemon.stats.spe;
-		index++;
-		// pokemon id
-		pokemonStateVector[index + this.getPokemonNumber(pokemon)] = 1;
-		index += Object.keys(this.pokedex).length;
-		// pokemon item
-		if (pokemon.item != "" && pokemon.item != null) {
-			pokemonStateVector[index + this.abilitydex[pokemon.baseAbility]] = 1;
+		pokemonState += (pokemon.gender == "F" ? 1 : 0) + ",";
+		if (ally) {
+			// pokemon hp (real value)
+			pokemonState += pokemon.hp + ",";
+			// pokemon max hp
+			pokemonState += pokemon.maxhp + ",";
+			// pokemon atk
+			pokemonState += pokemon.stats.atk + ",";
+			// pokemon def
+			pokemonState += pokemon.stats.def + ",";
+			// pokemon spa
+			pokemonState += pokemon.stats.spa + ",";
+			// pokemon spd
+			pokemonState += pokemon.stats.spd + ",";
+			// pokemon spe
+			pokemonState += pokemon.stats.spe + ",";
+		} else {
+			pokemonState += Math.ceil(pokemon.hp / pokemon.maxhp * 100) == 100 && 
+				pokemon.hp < pokemon.maxhp ? 99 : Math.ceil(pokemon.hp / pokemon.maxhp * 100);
+			pokemonState += ",";
 		}
-		index += Object.keys(this.itemdex).length;
+		// pokemon id
+		pokemonState += "(";
+		pokemonState += this.getPokemonNumber(pokemon);
+		pokemonState += "/" + Object.keys(this.pokedex).length + "),";
+		// pokemon item
+		pokemonState += "(";
+		if (pokemon.item != "" && pokemon.item != null) {
+			pokemonState += this.itemdex[pokemon.item];
+		}
+		pokemonState += "/" + Object.keys(this.itemdex).length + "),";
 		// pokemon ability
-		pokemonStateVector[index + this.abilitydex[pokemon.baseAbility]] = 1;
-		index += Object.keys(this.abilitydex).length;
+		pokemonState += "(";
+		if (ally || pokemon.revealAbility) {
+			pokemonState += this.abilitydex[pokemon.baseAbility];
+		}
+		pokemonState += "/" + Object.keys(this.abilitydex).length + "),";
 		// pokemon moves (one entry for each unique move in the game)
 		for (var i = pokemon.moveSlots.length - 1; i >= 0; i--) {
-			var moveNumber = this.getMoveNumber(pokemon.moveSlots[i].id, true);
-			pokemonStateVector[index + moveNumber] = pokemon.moveSlots[i].pp;
+			pokemonState += "(";
+			if (ally || pokemon.moveSlots[i].used) {
+				pokemonState += this.getMoveNumber(pokemon.moveSlots[i].id, ally);
+			}
+			pokemonState += "/" + Object.keys(ally ? this.allyMovedex : 
+				this.foeMovedex).length + "),";
+			if (ally || pokemon.moveSlots[i].used) {
+				pokemonState += pokemon.moveSlots[i].pp + ",";
+			} else {
+				pokemonState += "0,";
+			}
 		}
-		index += Object.keys(this.allyMovedex).length;
+		// if the pokemon knows less than 4 moves, insert blank moves
+		for (var i = 4 - pokemon.moveSlots.length - 1; i >= 0; i--) {
+			pokemonState += "(/" + Object.keys(ally ? this.allyMovedex : 
+				this.foeMovedex).length + "),";
+			pokemonState += "0,";
+		}
 		// pokemon status (permanent status like poison, faint)
+		pokemonState += "(";
 		if (pokemon.status != "" && this.statusdex[pokemon.status] != null) {
-			pokemonStateVector[index + this.statusdex[pokemon.status]] = 1;
+			pokemonState += this.statusdex[pokemon.status];
 		}
+		pokemonState += "/" + Object.keys(this.statusdex).length + "),";
 
-
-		// sanity check
-		for (var i = pokemonStateVector.length - 1; i >= 0; i--) {
-			if (pokemonStateVector[i] == null) {
-				pokemonStateVector[i] = 0;
-			}
-		}
-
-		return pokemonStateVector;
-	}
-
-	/**
-	 * @param {Pokemon} pokemon
-	 */
-	getFoePokemonVector(pokemon) {
-		var pokemonStateVector = [];
-		for (var i = 0; i < this.foePokemonLength; i++) {
-			pokemonStateVector = pokemonStateVector.concat(0);
-		}
-
-		// index variable, to keep track of position in array
-		var index = 0;
-
-		// foepokemon1 level (always known)
-		pokemonStateVector[index] = pokemon.level;
-		index++;
-		// foepokemon1 male (always known)
-		pokemonStateVector[index] = pokemon.gender == "M" ? 1 : 0;
-		index++;
-		// foepokemon1 female (always known)
-		pokemonStateVector[index] = pokemon.gender == "F" ? 1 : 0;
-		index++;
-		// foepokemon1 hp (always known as % of full)
-		pokemonStateVector[index] = Math.ceil(pokemon.hp / pokemon.maxhp * 100) == 100 && 
-			pokemon.hp < pokemon.maxhp ? 99 : Math.ceil(pokemon.hp / pokemon.maxhp * 100);
-		index++;
-		// foepokemon1 id (always known)
-		pokemonStateVector[index + this.getPokemonNumber(pokemon)] = 1;
-		index += Object.keys(this.pokedex).length;
-		// foepokemon1 item (unknown initally)
-		if (pokemon.revealItem) {
-			pokemonStateVector[index + this.itemdex[pokemon.item]] = 1;
-		} else {
-			for (var i = 0; i < Object.keys(this.itemdex).length; i++) {
-				pokemonStateVector[index + i] = -1;
-			}
-		}
-		index += Object.keys(this.itemdex).length;
-		// foepokemon1 ability
-		if (pokemon.revealAbility) {
-			pokemonStateVector[index + this.abilitydex[pokemon.baseAbility]] = 1;
-		} else {
-			for (var i = 0; i < Object.keys(this.abilitydex).length; i++) {
-				pokemonStateVector[index + i] = -1;
-			}
-		}
-		index += Object.keys(this.abilitydex).length;
-		// foepokemon1 moves
-		for (var i = 0; i < Object.keys(this.abilitydex).length; i++) {
-			pokemonStateVector[index + i] = -1;
-		}
-		for (var i = pokemon.moveSlots.length - 1; i >= 0; i--) {
-			if (pokemon.moveSlots[i].used == true) {
-				var moveNumber = this.getMoveNumber(pokemon.moveSlots[i].id, true);
-				pokemonStateVector[index + moveNumber] = pokemon.moveSlots[i].pp;
-			}
-		}
-		index += Object.keys(this.foeMovedex).length;
-		// foepokemon1 status (permanent status like poison, faint)
-		if (!(pokemon.status == "" || this.statusdex[pokemon.status] == null)) {
-			pokemonStateVector[index + this.statusdex[pokemon.status]] = 1;
-		}
-
-		// uh oh
-		for (var i = pokemonStateVector.length - 1; i >= 0; i--) {
-			if (pokemonStateVector[i] == null) {
-				pokemonStateVector[i] = 0;
-			}
-		}
-
-		return pokemonStateVector;
+		return pokemonState;
 	}
 
 	/**
@@ -656,46 +464,41 @@ class GameState {
 	 * @param {boolean} revealAbility
 	 */
 	getPokemonStatus(pokemon, revealAbility) {
-		var pokemonStatusVector = [];
-		for (var i = 0; i < this.pokemonStatusLength; i++) {
-			pokemonStatusVector = pokemonStatusVector.concat(0);
+		var pokemonStatus = "";
+
+		// check to see if pokemon is null
+		if (pokemon == null) {
+			var statusLength = 7 + Object.keys(this.types).length;
+			statusLength += Object.keys(this.abilitydex).length;
+			return "(/" + statusLength + "),";
 		}
 
-		var index = 0;
 
-		// mypokemon1 hasType (true or false for every type)
-		for (var i = 0; i < pokemon.types; i++) {
-			pokemonStatusVector[this.types[pokemon.types[i]]] = 1;
-		}
-		index += Object.keys(this.types).length;
-		// mypokemon1 current ability
+		// pokemon atk boost
+		pokemonStatus = pokemon.boosts.atk + ",";
+		// pokemon def boost
+		pokemonStatus = pokemon.boosts.def + ",";
+		// pokemon spa boost
+		pokemonStatus = pokemon.boosts.spa + ",";
+		// pokemon spd boost
+		pokemonStatus = pokemon.boosts.spd + ",";
+		// pokemon spe boost
+		pokemonStatus = pokemon.boosts.spe + ",";
+		// pokemon accuracy boost
+		pokemonStatus = pokemon.boosts.accuracy + ",";
+		// pokemon evasion boost
+		pokemonStatus = pokemon.boosts.evasion + ",";
+		// pokemon hasType (true or false for every type)
+		pokemonStatus += "(" + this.types;
+		pokemonStatus += "/" + Object.keys(this.types).length + "),";
+		// pokemon current ability
+		pokemonStatus += "(";
 		if (revealAbility || pokemon.revealAbility) {
-			pokemonStatusVector[index + this.abilitydex[pokemon.ability]] = 1;
+			pokemonStatus += this.abilitydex[pokemon.ability];
 		}
-		index += Object.keys(this.abilitydex).length;
-		// mypokemon1 atk boost
-		this.state[index] = pokemon.boosts.atk;
-		index++;
-		// mypokemon1 def boost
-		this.state[index] = pokemon.boosts.def;
-		index++;
-		// mypokemon1 spa boost
-		this.state[index] = pokemon.boosts.spa;
-		index++;
-		// mypokemon1 spd boost
-		this.state[index] = pokemon.boosts.spd;
-		index++;
-		// mypokemon1 spe boost
-		this.state[index] = pokemon.boosts.spe;
-		index++;
-		// mypokemon1 accuracy boost
-		this.state[index] = pokemon.boosts.accuracy;
-		index++;
-		// mypokemon1 evasion boost
-		this.state[index] = pokemon.boosts.evasion;
-		index++;
+		pokemonStatus += "/" + Object.keys(this.abilitydex).length + "),";
 
-		return pokemonStatusVector;
+		return pokemonStatus;
 	}
 
 	/**

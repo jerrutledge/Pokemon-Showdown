@@ -33,23 +33,7 @@ class RandomPlayerAI extends BattleStreams.BattlePlayer {
 	 * @param {AnyObject} request
 	 */
 	receiveRequest(request) {
-		// readable log for gameState vector
-		var gameStateLog = "\n" + request.side.id;
-		for (var i = 0; i <= 5; i++) {
-			gameStateLog += "\nAlly" + i + ":" + 
-				request.side.gameState.slice(i * 2445, (i + 1) * 2445);
-		}
-		gameStateLog += "\nMyStatus:   " + 
-			request.side.gameState.slice(14670, 14932);
-		for (var i = 0; i <= 5; i++) {
-			gameStateLog += "\nFoeP" + i + ":" + 
-				request.side.gameState.slice(14933 + i * 2439, 14933 + (i + 1) * 2439);
-		}
-		gameStateLog += "\nFoeStatus: " + 
-			request.side.gameState.slice(29567, 29830);
-		gameStateLog += "\nGameState/Moves: " + 
-			request.side.gameState.slice(31330);
-		console.log(gameStateLog);
+		console.log(request.side.gameState);
 
 		if (request.wait) {
 			// wait request
