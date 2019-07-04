@@ -475,19 +475,19 @@ class GameState {
 
 
 		// pokemon atk boost
-		pokemonStatus = pokemon.boosts.atk + ",";
+		pokemonStatus += pokemon.boosts.atk + ",";
 		// pokemon def boost
-		pokemonStatus = pokemon.boosts.def + ",";
+		pokemonStatus += pokemon.boosts.def + ",";
 		// pokemon spa boost
-		pokemonStatus = pokemon.boosts.spa + ",";
+		pokemonStatus += pokemon.boosts.spa + ",";
 		// pokemon spd boost
-		pokemonStatus = pokemon.boosts.spd + ",";
+		pokemonStatus += pokemon.boosts.spd + ",";
 		// pokemon spe boost
-		pokemonStatus = pokemon.boosts.spe + ",";
+		pokemonStatus += pokemon.boosts.spe + ",";
 		// pokemon accuracy boost
-		pokemonStatus = pokemon.boosts.accuracy + ",";
+		pokemonStatus += pokemon.boosts.accuracy + ",";
 		// pokemon evasion boost
-		pokemonStatus = pokemon.boosts.evasion + ",";
+		pokemonStatus += pokemon.boosts.evasion + ",";
 		// pokemon hasType (true or false for every type)
 		pokemonStatus += "(" + this.types;
 		pokemonStatus += "/" + Object.keys(this.types).length + "),";
