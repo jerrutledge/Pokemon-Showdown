@@ -99,6 +99,8 @@
 // sun
 // hail
 // sandstorm
+// heavy rain
+// harsh sun
 // electric terrain
 // grassy terrain
 // misty terrain
@@ -280,6 +282,34 @@ class GameState {
 		this.durationVolatiles[6] = "taunt";
 		this.durationVolatiles[7] = "telekinesis";
 
+		// terrain numbers
+		/** @type {array[int]} */
+		this.terrainNumbers = [];
+		this.terrainNumbers['electricterrain'] = 0;
+		this.terrainNumbers['grassyterrain'] = 1;
+		this.terrainNumbers['mistyterrain'] = 2;
+		this.terrainNumbers['psychicterrain'] = 3;
+
+		// weather numbers
+		/** @type {array[int]} */
+		this.weatherNumbers = [];
+		this.weatherNumbers['sunnyday'] = 0;
+		this.weatherNumbers['desolateland'] = 1;
+		this.weatherNumbers['raindance'] = 2;
+		this.weatherNumbers['primordialsea'] = 3;
+		this.weatherNumbers['sandstorm'] = 4;
+		this.weatherNumbers['hail'] = 5;
+
+		// pseudo weather numbers
+		/** @type {array[int]} */
+		this.pseudoWeatherNumbers = [];
+		this.pseudoWeatherNumbers['fairylock'] = 0;
+		this.pseudoWeatherNumbers['gravity'] = 1;
+		this.pseudoWeatherNumbers['magicroom'] = 2;
+		this.pseudoWeatherNumbers['mudsport'] = 3;
+		this.pseudoWeatherNumbers['trickroom'] = 4;
+		this.pseudoWeatherNumbers['watersport'] = 5;
+		this.pseudoWeatherNumbers['wonderroom'] = 6;
 	}
 
 	/**
