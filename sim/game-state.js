@@ -248,37 +248,37 @@ class GameState {
 		// binary volatiles - they are active or not i.e. 1 or 0
 		/** @type {array[int]} */
 		this.binaryVolatiles = [];
-		this.binaryVolatiles["aquaring"] = 0;
-		this.binaryVolatiles["attract"] = 1;
-		this.binaryVolatiles["curse"] = 2;
-		this.binaryVolatiles["defensecurl"] = 3;
-		this.binaryVolatiles["focusenergy"] = 4;
-		this.binaryVolatiles["foresight"] = 5;
-		this.binaryVolatiles["gastroacid"] = 6;
-		this.binaryVolatiles["imprison"] = 7;
-		this.binaryVolatiles["ingrain"] = 8;
-		this.binaryVolatiles["laserfocus"] = 9;
-		this.binaryVolatiles["leechseed"] = 10;
-		this.binaryVolatiles["lockon"] = 11;
-		this.binaryVolatiles["miracleeye"] = 12;
-		this.binaryVolatiles["mustrecharge"] = 13;
-		this.binaryVolatiles["nightmare"] = 14;
-		this.binaryVolatiles["powertrick"] = 15;
-		this.binaryVolatiles["torment"] = 16;
-		this.binaryVolatiles["trapped"] = 17;
-		this.binaryVolatiles["yawn"] = 18;
+		this.binaryVolatiles[0] = "aquaring";
+		this.binaryVolatiles[1] = "attract";
+		this.binaryVolatiles[2] = "curse";
+		this.binaryVolatiles[3] = "defensecurl";
+		this.binaryVolatiles[4] = "focusenergy";
+		this.binaryVolatiles[5] = "foresight";
+		this.binaryVolatiles[6] = "gastroacid";
+		this.binaryVolatiles[7] = "imprison";
+		this.binaryVolatiles[8] = "ingrain";
+		this.binaryVolatiles[9] = "laserfocus";
+		this.binaryVolatiles[10] = "leechseed";
+		this.binaryVolatiles[11] = "lockon";
+		this.binaryVolatiles[12] = "miracleeye";
+		this.binaryVolatiles[13] = "mustrecharge";
+		this.binaryVolatiles[14] = "nightmare";
+		this.binaryVolatiles[15] = "powertrick";
+		this.binaryVolatiles[16] = "torment";
+		this.binaryVolatiles[17] = "trapped";
+		this.binaryVolatiles[18] = "yawn";
 
 		// duration volatiles - last for a variable number of turns
 		/** @type {array[int]} */
 		this.durationVolatiles = [];
-		this.durationVolatiles["embargo"] = 0;
-		this.durationVolatiles["encore"] = 1;
-		this.durationVolatiles["healblock"] = 2;
-		this.durationVolatiles["magnetrise"] = 3;
-		this.durationVolatiles["partiallytrapped"] = 4;
-		this.durationVolatiles["perishsong"] = 5;
-		this.durationVolatiles["taunt"] = 6;
-		this.durationVolatiles["telekinesis"] = 7;
+		this.durationVolatiles[0] = "embargo";
+		this.durationVolatiles[1] = "encore";
+		this.durationVolatiles[2] = "healblock";
+		this.durationVolatiles[3] = "magnetrise";
+		this.durationVolatiles[4] = "partiallytrapped";
+		this.durationVolatiles[5] = "perishsong";
+		this.durationVolatiles[6] = "taunt";
+		this.durationVolatiles[7] = "telekinesis";
 
 	}
 
@@ -504,11 +504,11 @@ class GameState {
 
 		// --- VOLATILES ---
 
-		for (var i = 0; i < this.binaryVolatiles.length; i++) {
+		for (var i = 0; i < Object.keys(this.binaryVolatiles).length; i++) {
 			pokemonStatus += (this.binaryVolatiles[i] in pokemon.volatiles) ? "1," : "0,";
 		}
 
-		for (var i = 0; i < this.durationVolatiles.length; i++) {
+		for (var i = 0; i < Object.keys(this.durationVolatiles).length; i++) {
 			if (this.durationVolatiles[i] in pokemon.volatiles) {
 				pokemonStatus += pokemon.volatiles[this.durationVolatiles[i]].duration + ",";
 			} else {
