@@ -39,7 +39,6 @@
 // mypokemon1 aqua ring
 // mypokemon1 bound
 // mypokemon1 can switch
-// mypokemon1 confusion
 // mypokemon1 curse
 // mypokemon1 defense curl
 // mypokemon1 embargo
@@ -60,13 +59,13 @@
 // mypokemon1 nightmare
 // mypokemon1 perish song
 // mypokemon1 power trick
-// mypokemon1 stockpile
-// mypokemon1 substitute
 // mypokemon1 taunt
 // mypokemon1 telekinesis
 // mypokemon1 torment
-// mypokemon1 trapped
 // mypokemon1 yawn
+// mypokemon1 confusion
+// mypokemon1 stockpile
+// mypokemon1 substitute
 
 
 // // foe pokemon, begin as -1 = not known, changed to known from battle stack
@@ -153,46 +152,7 @@
 	side tailwind
 	side toxic spikes
 	side wish
-	activePokemon aqua ring
-	activePokemon bound
-	activePokemon can switch
-	activePokemon confusion
-	activePokemon critratio
-	activePokemon curse
-	activePokemon embargo
-	activePokemon encore
-	activePokemon encore
-	activePokemon focus energy
-	activePokemon foresight
-	activePokemon gastro acid
-	activePokemon heal block
-	activePokemon identified
-	activePokemon imprison
-	activePokemon imprisoned
-	activePokemon infatuated
-	activePokemon ingrain
-	activePokemon laser focus
-	activePokemon leech seed
-	activePokemon magnet rise
-	activePokemon miracle eye
-	activePokemon move1 disabled
-	activePokemon move2 disabled
-	activePokemon move3 disabled
-	activePokemon move4 disabled
-	activePokemon mustrecharge
-	activePokemon nightmare
-	activePokemon odor sleuth
-	activePokemon perish song
-	activePokemon power trick
-	activePokemon stockpile
-	activePokemon substitute
-	activePokemon surehit
-	activePokemon taking aim
-	activePokemon taunt
-	activePokemon telekinesis
-	activePokemon torment
-	activePokemon trapped
-	activePokemon yawn
+
 
 */
 
@@ -285,41 +245,41 @@ class GameState {
 		this.types["Steel"] = 17;
 		this.types["Fairy"] = 18;
 
-		// volatiles
+		// binary volatiles - they are active or not i.e. 1 or 0
 		/** @type {array[int]} */
-		this.volatiles = [];
-		this.volatiles["aquaring"] = 0;
-		this.volatiles["attract"] = 1;
-		this.volatiles["charge"] = 2;
-		this.volatiles["confusion"] = 3;
-		this.volatiles["curse"] = 4;
-		this.volatiles["embargo"] = 5;
-		this.volatiles["encore"] = 6;
-		this.volatiles["focusenergy"] = 7;
-		this.volatiles["foresight"] = 8;
-		this.volatiles["gastroacid"] = 9;
-		this.volatiles["healblock"] = 10;
-		this.volatiles["imprison"] = 11;
-		this.volatiles["ingrain"] = 12;
-		this.volatiles["laserfocus"] = 13;
-		this.volatiles["leechseed"] = 14;
-		this.volatiles["magnetrise"] = 15;
-		this.volatiles["miracleeye"] = 16;
-		this.volatiles["mustrecharge"] = 17;
-		this.volatiles["nightmare"] = 18;
-		this.volatiles["powertrick"] = 19;
-		this.volatiles["telekinesis"] = 20;
-		this.volatiles["torment"] = 21;
-		this.volatiles["yawn"] = 22;
-		// partiallytrapped
-		// activePokemon trapped
-		// activePokemon substitute
-		// activePokemon taunt
-		// activePokemon lockedmove
-		// activePokemon perish song
-		// activePokemon stockpile
-		// disable
-		// activePokemon lockon
+		this.binaryVolatiles = [];
+		this.binaryVolatiles["aquaring"] = 0;
+		this.binaryVolatiles["attract"] = 1;
+		this.binaryVolatiles["curse"] = 2;
+		this.binaryVolatiles["defensecurl"] = 3;
+		this.binaryVolatiles["focusenergy"] = 4;
+		this.binaryVolatiles["foresight"] = 5;
+		this.binaryVolatiles["gastroacid"] = 6;
+		this.binaryVolatiles["imprison"] = 7;
+		this.binaryVolatiles["ingrain"] = 8;
+		this.binaryVolatiles["laserfocus"] = 9;
+		this.binaryVolatiles["leechseed"] = 10;
+		this.binaryVolatiles["lockon"] = 11;
+		this.binaryVolatiles["miracleeye"] = 12;
+		this.binaryVolatiles["mustrecharge"] = 13;
+		this.binaryVolatiles["nightmare"] = 14;
+		this.binaryVolatiles["powertrick"] = 15;
+		this.binaryVolatiles["torment"] = 16;
+		this.binaryVolatiles["trapped"] = 17;
+		this.binaryVolatiles["yawn"] = 18;
+
+		// duration volatiles - last for a variable number of turns
+		/** @type {array[int]} */
+		this.durationVolatiles = [];
+		this.durationVolatiles["embargo"] = 0;
+		this.durationVolatiles["encore"] = 1;
+		this.durationVolatiles["healblock"] = 2;
+		this.durationVolatiles["magnetrise"] = 3;
+		this.durationVolatiles["partiallytrapped"] = 4;
+		this.durationVolatiles["perishsong"] = 5;
+		this.durationVolatiles["taunt"] = 6;
+		this.durationVolatiles["telekinesis"] = 7;
+
 	}
 
 	/**
@@ -469,7 +429,18 @@ class GameState {
 			pokemonState += "/" + Object.keys(ally ? this.allyMovedex : 
 				this.foeMovedex).length + "),";
 			if (ally || pokemon.moveSlots[i].used) {
-				pokemonState += pokemon.moveSlots[i].pp + ",";
+				if (pokemon.moveSlots[i].disabled) {
+					// disabled moves have pp value of -duration of disable
+					if ("disable" in pokemon.volatiles) {
+						pokemonState += "-" + pokemon.volatiles.disable.duration + ",";
+					} else if ("taunt" in pokemon.volatiles) {
+						pokemonState += "-" + pokemon.volatiles.taunt.duration + ",";
+					} else {
+						pokemonState += "-1,";
+					}
+				} else {
+					pokemonState += pokemon.moveSlots[i].pp + ",";
+				}
 			} else {
 				pokemonState += "0,";
 			}
@@ -533,82 +504,25 @@ class GameState {
 
 		// --- VOLATILES ---
 
-		// aqua ring
-		pokemonStatus += ("aquaring" in pokemon.volatiles) ? "1," : "0,";
-		// bound
-		if ("partiallytrapped" in pokemon.volatiles) {
-			pokemonStatus += pokemon.volatiles.partiallytrapped.duration + ",";
-		} else {
-			pokemonStatus += "0,";
+		for (var i = 0; i < this.binaryVolatiles.length; i++) {
+			pokemonStatus += (this.binaryVolatiles[i] in pokemon.volatiles) ? "1," : "0,";
 		}
-		// can switch
-		pokemonStatus += ("trapped" in pokemon.volatiles) ? "1," : "0,";
+
+		for (var i = 0; i < this.durationVolatiles.length; i++) {
+			if (this.durationVolatiles[i] in pokemon.volatiles) {
+				pokemonStatus += pokemon.volatiles[this.durationVolatiles[i]].duration + ",";
+			} else {
+				pokemonStatus += "0,";
+			}
+		}
+
+
 		// confusion
 		if ("confusion" in pokemon.volatiles) {
 			pokemonStatus += pokemon.volatiles.confusion.time + ",";
 		} else {
 			pokemonStatus += "0,";
 		}
-		// curse
-		pokemonStatus += ("curse" in pokemon.volatiles) ? "1," : "0,";
-		// defense curl
-		pokemonStatus += ("defensecurl" in pokemon.volatiles) ? "1," : "0,";
-		// embargo
-		if ("embargo" in pokemon.volatiles) {
-			pokemonStatus += pokemon.volatiles.embargo.duration + ",";
-		} else {
-			pokemonStatus += "0,";
-		}
-		// encore
-		if ("encore" in pokemon.volatiles) {
-			pokemonStatus += pokemon.volatiles.encore.duration + ",";
-		} else {
-			pokemonStatus += "0,";
-		}
-		// focus energy
-		pokemonStatus += ("focusenergy" in pokemon.volatiles) ? "1," : "0,";
-		// foresight
-		pokemonStatus += ("foresight" in pokemon.volatiles) ? "1," : "0,";
-		// gastro acid
-		pokemonStatus += ("gastroacid" in pokemon.volatiles) ? "1," : "0,";
-		// heal block
-		if ("healblock" in pokemon.volatiles) {
-			pokemonStatus += pokemon.volatiles.healblock.duration + ",";
-		} else {
-			pokemonStatus += "0,";
-		}
-		// imprison
-		pokemonStatus += ("imprison" in pokemon.volatiles) ? "1," : "0,";
-		// infatuated
-		pokemonStatus += ("attract" in pokemon.volatiles) ? "1," : "0,";
-		// ingrain
-		pokemonStatus += ("ingrain" in pokemon.volatiles) ? "1," : "0,";
-		// laser focus
-		pokemonStatus += ("laserfocus" in pokemon.volatiles) ? "1," : "0,";
-		// leech seed
-		pokemonStatus += ("leechseed" in pokemon.volatiles) ? "1," : "0,";
-		// lock on
-		pokemonStatus += ("lockon" in pokemon.volatiles) ? "1," : "0,";
-		// magnet rise
-		if ("magnetrise" in pokemon.volatiles) {
-			pokemonStatus += pokemon.volatiles.magnetrise.duration + ",";
-		} else {
-			pokemonStatus += "0,";
-		}
-		// miracle eye
-		pokemonStatus += ("miracleeye" in pokemon.volatiles) ? "1," : "0,";
-		// mustrecharge
-		pokemonStatus += ("mustrecharge" in pokemon.volatiles) ? "1," : "0,";
-		// nightmare
-		pokemonStatus += ("nightmare" in pokemon.volatiles) ? "1," : "0,";
-		// perish song
-		if ("perishsong" in pokemon.volatiles) {
-			pokemonStatus += pokemon.volatiles.perishsong.duration + ",";
-		} else {
-			pokemonStatus += "0,";
-		}
-		// power trick
-		pokemonStatus += ("powertrick" in pokemon.volatiles) ? "1," : "0,";
 		// stockpile
 		if ("stockpile" in pokemon.volatiles) {
 			pokemonStatus += pokemon.volatiles.stockpile.layers + ",";
@@ -621,22 +535,6 @@ class GameState {
 		} else {
 			pokemonStatus += "0,";
 		}
-		// taunt
-		if ("taunt" in pokemon.volatiles) {
-			pokemonStatus += pokemon.volatiles.taunt.duration + ",";
-		} else {
-			pokemonStatus += "0,";
-		}
-		// telekinesis
-		if ("telekinesis" in pokemon.volatiles) {
-			pokemonStatus += pokemon.volatiles.telekinesis.duration + ",";
-		} else {
-			pokemonStatus += "0,";
-		}
-		// torment
-		pokemonStatus += ("torment" in pokemon.volatiles) ? "1," : "0,";
-		// yawn
-		pokemonStatus += ("yawn" in pokemon.volatiles) ? "1," : "0,";
 
 		return pokemonStatus;
 	}
