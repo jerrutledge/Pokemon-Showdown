@@ -36,6 +36,37 @@
 // mypokemon1 evasion boost
 // mypokemon1 hasType (true or false for every type)
 // mypokemon1 current ability
+// mypokemon1 aqua ring
+// mypokemon1 bound
+// mypokemon1 can switch
+// mypokemon1 confusion
+// mypokemon1 curse
+// mypokemon1 defense curl
+// mypokemon1 embargo
+// mypokemon1 encore
+// mypokemon1 focus energy
+// mypokemon1 foresight
+// mypokemon1 gastro acid
+// mypokemon1 heal block
+// mypokemon1 imprison
+// mypokemon1 infatuated
+// mypokemon1 ingrain
+// mypokemon1 laser focus
+// mypokemon1 leech seed
+// mypokemon1 lock on
+// mypokemon1 magnet rise
+// mypokemon1 miracle eye
+// mypokemon1 mustrecharge
+// mypokemon1 nightmare
+// mypokemon1 perish song
+// mypokemon1 power trick
+// mypokemon1 stockpile
+// mypokemon1 substitute
+// mypokemon1 taunt
+// mypokemon1 telekinesis
+// mypokemon1 torment
+// mypokemon1 trapped
+// mypokemon1 yawn
 
 
 // // foe pokemon, begin as -1 = not known, changed to known from battle stack
@@ -497,6 +528,115 @@ class GameState {
 			pokemonStatus += this.abilitydex[pokemon.ability];
 		}
 		pokemonStatus += "/" + Object.keys(this.abilitydex).length + "),";
+
+
+
+		// --- VOLATILES ---
+
+		// aqua ring
+		pokemonStatus += ("aquaring" in pokemon.volatiles) ? "1," : "0,";
+		// bound
+		if ("partiallytrapped" in pokemon.volatiles) {
+			pokemonStatus += pokemon.volatiles.partiallytrapped.duration + ",";
+		} else {
+			pokemonStatus += "0,";
+		}
+		// can switch
+		pokemonStatus += ("trapped" in pokemon.volatiles) ? "1," : "0,";
+		// confusion
+		if ("confusion" in pokemon.volatiles) {
+			pokemonStatus += pokemon.volatiles.confusion.time + ",";
+		} else {
+			pokemonStatus += "0,";
+		}
+		// curse
+		pokemonStatus += ("curse" in pokemon.volatiles) ? "1," : "0,";
+		// defense curl
+		pokemonStatus += ("defensecurl" in pokemon.volatiles) ? "1," : "0,";
+		// embargo
+		if ("embargo" in pokemon.volatiles) {
+			pokemonStatus += pokemon.volatiles.embargo.duration + ",";
+		} else {
+			pokemonStatus += "0,";
+		}
+		// encore
+		if ("encore" in pokemon.volatiles) {
+			pokemonStatus += pokemon.volatiles.encore.duration + ",";
+		} else {
+			pokemonStatus += "0,";
+		}
+		// focus energy
+		pokemonStatus += ("focusenergy" in pokemon.volatiles) ? "1," : "0,";
+		// foresight
+		pokemonStatus += ("foresight" in pokemon.volatiles) ? "1," : "0,";
+		// gastro acid
+		pokemonStatus += ("gastroacid" in pokemon.volatiles) ? "1," : "0,";
+		// heal block
+		if ("healblock" in pokemon.volatiles) {
+			pokemonStatus += pokemon.volatiles.healblock.duration + ",";
+		} else {
+			pokemonStatus += "0,";
+		}
+		// imprison
+		pokemonStatus += ("imprison" in pokemon.volatiles) ? "1," : "0,";
+		// infatuated
+		pokemonStatus += ("attract" in pokemon.volatiles) ? "1," : "0,";
+		// ingrain
+		pokemonStatus += ("ingrain" in pokemon.volatiles) ? "1," : "0,";
+		// laser focus
+		pokemonStatus += ("laserfocus" in pokemon.volatiles) ? "1," : "0,";
+		// leech seed
+		pokemonStatus += ("leechseed" in pokemon.volatiles) ? "1," : "0,";
+		// lock on
+		pokemonStatus += ("lockon" in pokemon.volatiles) ? "1," : "0,";
+		// magnet rise
+		if ("magnetrise" in pokemon.volatiles) {
+			pokemonStatus += pokemon.volatiles.magnetrise.duration + ",";
+		} else {
+			pokemonStatus += "0,";
+		}
+		// miracle eye
+		pokemonStatus += ("miracleeye" in pokemon.volatiles) ? "1," : "0,";
+		// mustrecharge
+		pokemonStatus += ("mustrecharge" in pokemon.volatiles) ? "1," : "0,";
+		// nightmare
+		pokemonStatus += ("nightmare" in pokemon.volatiles) ? "1," : "0,";
+		// perish song
+		if ("perishsong" in pokemon.volatiles) {
+			pokemonStatus += pokemon.volatiles.perishsong.duration + ",";
+		} else {
+			pokemonStatus += "0,";
+		}
+		// power trick
+		pokemonStatus += ("powertrick" in pokemon.volatiles) ? "1," : "0,";
+		// stockpile
+		if ("stockpile" in pokemon.volatiles) {
+			pokemonStatus += pokemon.volatiles.stockpile.layers + ",";
+		} else {
+			pokemonStatus += "0,";
+		}
+		// substitute
+		if ("substitute" in pokemon.volatiles) {
+			pokemonStatus += pokemon.volatiles.substitute.hp + ",";
+		} else {
+			pokemonStatus += "0,";
+		}
+		// taunt
+		if ("taunt" in pokemon.volatiles) {
+			pokemonStatus += pokemon.volatiles.taunt.duration + ",";
+		} else {
+			pokemonStatus += "0,";
+		}
+		// telekinesis
+		if ("telekinesis" in pokemon.volatiles) {
+			pokemonStatus += pokemon.volatiles.telekinesis.duration + ",";
+		} else {
+			pokemonStatus += "0,";
+		}
+		// torment
+		pokemonStatus += ("torment" in pokemon.volatiles) ? "1," : "0,";
+		// yawn
+		pokemonStatus += ("yawn" in pokemon.volatiles) ? "1," : "0,";
 
 		return pokemonStatus;
 	}
