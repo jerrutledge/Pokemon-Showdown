@@ -293,12 +293,13 @@ class GameState {
 		// weather numbers
 		/** @type {array[int]} */
 		this.weatherNumbers = [];
-		this.weatherNumbers['sunnyday'] = 0;
+		this.weatherNumbers['deltastream'] = 0;
 		this.weatherNumbers['desolateland'] = 1;
-		this.weatherNumbers['raindance'] = 2;
+		this.weatherNumbers['hail'] = 2;
 		this.weatherNumbers['primordialsea'] = 3;
-		this.weatherNumbers['sandstorm'] = 4;
-		this.weatherNumbers['hail'] = 5;
+		this.weatherNumbers['raindance'] = 4;
+		this.weatherNumbers['sandstorm'] = 5;
+		this.weatherNumbers['sunnyday'] = 6;
 
 		// pseudo weather numbers
 		/** @type {array[int]} */
