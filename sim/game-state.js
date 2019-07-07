@@ -311,6 +311,24 @@ class GameState {
 		this.pseudoWeatherNumbers['trickroom'] = 4;
 		this.pseudoWeatherNumbers['watersport'] = 5;
 		this.pseudoWeatherNumbers['wonderroom'] = 6;
+
+		// side conditions
+		/** @type {array[int]} */
+		this.sideConditionNumbers = [];
+		this.sideConditionNumbers['auroraveil'] = 0;
+		this.sideConditionNumbers['healingwish'] = 1;
+		this.sideConditionNumbers['lightscreen'] = 2;
+		this.sideConditionNumbers['luckychant'] = 3;
+		this.sideConditionNumbers['lunardance'] = 4;
+		this.sideConditionNumbers['mist'] = 5;
+		this.sideConditionNumbers['reflect'] = 6;
+		this.sideConditionNumbers['safeguard'] = 7;
+		this.sideConditionNumbers['spikes'] = 8;
+		this.sideConditionNumbers['stealthrock'] = 9;
+		this.sideConditionNumbers['stickyweb'] = 10;
+		this.sideConditionNumbers['tailwind'] = 11;
+		this.sideConditionNumbers['toxicspikes'] = 12;
+		this.sideConditionNumbers['Wish'] = 13;
 	}
 
 	/**
@@ -369,17 +387,21 @@ class GameState {
 		for (var i = 0; i<this.side.pokemon.length; i++) {
 			state += this.getPokemonVector(this.side.pokemon[i], true);
 		}
-
 		// my pokemon status
 		state += this.getPokemonStatus(this.side.active[0], true);
+		// my side status
+		state += this.getSideStatus(this.side);
+
 
 		// then, their six pokemon
 		for (var i = this.side.foe.pokemon.length - 1; i >= 0; i--) {
 			state += this.getPokemonVector(this.side.foe.pokemon[i], false);
 		}
-
 		// foe pokemon status
 		state += this.getPokemonStatus(this.side.foe.active[0], false);
+		// foe side status
+		state += this.getSideStatus(this.side.foe);
+
 
 		// weather
 		for (var condition in this.weatherNumbers) {
@@ -595,6 +617,31 @@ class GameState {
 		}
 
 		return pokemonStatus;
+	}
+
+	/**
+	 * @param {Side} side
+	 */
+	getSideStatus(side) {
+		var state = "";
+
+		for (var condition in this.sideConditionNumbers) {
+			if (condition in side.sideConditions) {
+				if (!side.sideConditions[condition].duration) {
+					if (!side.sideConditions[condition].layers) {
+						state += "1,";
+					} else {
+						state += side.sideConditions[condition].layers + ",";
+					}
+				} else {
+					state += side.sideConditions[condition].duration + ",";
+				}
+			} else {
+				state += "0,";
+			}
+		}
+
+		return state;
 	}
 
 	/**
