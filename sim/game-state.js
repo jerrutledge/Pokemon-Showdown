@@ -381,7 +381,34 @@ class GameState {
 		// foe pokemon status
 		state += this.getPokemonStatus(this.side.foe.active[0], false);
 
-
+		// weather
+		for (var condition in this.weatherNumbers) {
+			if (this.side.battle.weather == condition) {
+				if (!this.side.battle.weatherData.duration) {
+					state += "10,";
+				} else {
+					state += this.side.battle.weatherData.duration + ",";
+				}
+			} else {
+				state += "0,";
+			}
+		}
+		// terrain
+		for (var condition in this.terrainNumbers) {
+			if (this.side.battle.terrain == condition) {
+				state += this.side.battle.terrainData.duration + ",";
+			} else {
+				state += "0,";
+			}
+		}
+		// pseudo weather
+		for (var condition in this.pseudoWeatherNumbers) {
+			if (condition in this.side.battle.pseudoWeather) {
+				state += this.side.battle.pseudoWeather[condition].duration + ",";
+			} else {
+				state += "0,";
+			}
+		}
 		
 		// TODO 
 		// determine the request
