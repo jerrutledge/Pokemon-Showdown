@@ -563,6 +563,13 @@ class GameState {
 			}
 		}
 
+		// mega
+		state += side.choice.mega ? "1," : "0,";
+		// ultra
+		state += side.choice.ultra ? "1," : "0,";
+		// zmove
+		state += side.choice.zMove ? "1," : "0,";
+
 		return state;
 	}
 
