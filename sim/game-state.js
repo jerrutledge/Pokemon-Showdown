@@ -25,7 +25,6 @@
 // 		(value = pp the move has)
 // mypokemon1 status (permanent status like poison, faint)
 
-
 // // status effects for my side
 // mypokemon1 atk boost
 // mypokemon1 def boost
@@ -36,37 +35,7 @@
 // mypokemon1 evasion boost
 // mypokemon1 hasType (true or false for every type)
 // mypokemon1 current ability
-// mypokemon1 aqua ring
-// mypokemon1 bound
-// mypokemon1 can switch
-// mypokemon1 curse
-// mypokemon1 defense curl
-// mypokemon1 embargo
-// mypokemon1 encore
-// mypokemon1 focus energy
-// mypokemon1 foresight
-// mypokemon1 gastro acid
-// mypokemon1 heal block
-// mypokemon1 imprison
-// mypokemon1 infatuated
-// mypokemon1 ingrain
-// mypokemon1 laser focus
-// mypokemon1 leech seed
-// mypokemon1 lock on
-// mypokemon1 magnet rise
-// mypokemon1 miracle eye
-// mypokemon1 mustrecharge
-// mypokemon1 nightmare
-// mypokemon1 perish song
-// mypokemon1 power trick
-// mypokemon1 taunt
-// mypokemon1 telekinesis
-// mypokemon1 torment
-// mypokemon1 yawn
-// mypokemon1 confusion
-// mypokemon1 stockpile
-// mypokemon1 substitute
-
+// mypokemon1 volatiles
 
 // // foe pokemon, begin as -1 = not known, changed to known from battle stack
 // foepokemon1 level (always known)
@@ -79,7 +48,6 @@
 // foepokemon1 moves
 // foepokemon1 status (permanent status like poison, faint)
 
-
 // // status effects for enemy side
 // foepokemon1 atk boost
 // foepokemon1 def boost
@@ -90,33 +58,18 @@
 // foepokemon1 evasion boost
 // foepokemon1 hasType (true or false for every type)
 // foepokemon1 current ability (once learned)
-
+// foepokemon1 volatiles
 
 // // stage battle effects
 // value 0 = not in effect
 // value = number of turns left
-// rain
-// sun
-// hail
-// sandstorm
-// heavy rain
-// harsh sun
-// electric terrain
-// grassy terrain
-// misty terrain
-// psychic terrain
-// trick room
-// wonder room
-// magic room
-// gravity
-// mud sport
-// water sport
-
+// weather
+// terrain
+// pseudo weather
 
 // // last moves
 // mypokemon1 lastmove
 // foepokemon1 lastmove
-
 
 // // game state
 // win
@@ -131,30 +84,8 @@
 /*
 // TODO:
 // WIP
-!!	weather
-!!	terrain
-	trick room
-	wonder room
-	magic room
-	gravity
-	water sport
-	mud sport
-	side aurora veil
-	side canMegaEvolve
-	side canZmove
-	side heal block
-	side light screen
-	side lucky chant
-	side mist
-	side reflect
-	side safeguard
-	side spikes
-	side stealth rock
-	side sticky web
-	side tailwind
-	side toxic spikes
-	side wish
-
+side canMegaEvolve
+side canZmove
 
 */
 
