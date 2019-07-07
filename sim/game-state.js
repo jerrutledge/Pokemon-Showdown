@@ -274,15 +274,6 @@ class GameState {
 
 		// look at log from the last turn
 
-		// determine the moves taken in the last turn
-		var myMoveRegex = new RegExp('^\\|move\\|'.concat(this.side.id,"[abc]"));
-		var foeMoveRegex = new RegExp("^\\|move\\|".concat(this.side.foe.id,"[abc]"));
-		var moveRegex = /^\|move\|.*\|(.*)\|/;
-		// if no moves, move number should be -1
-		// TODO
-		// var moveOrderIndex = 0;
-		this.allyLastMove = -1;
-		this.foeLastMove = -1;
 		// determine if enemy items were revealed
 		var fromItemRegex = new RegExp(this.side.foe.id + '.*\\[from\\] item: (.*)$');
 		var itemRegex = new RegExp('^\\|-.{0,3}item\\|'+this.side.foe.id);
@@ -293,15 +284,7 @@ class GameState {
 
 		var lastLog = this.side.battle.log.slice(this.side.battle.sentLogPos);
 		for (var line in lastLog) {
-			if (lastLog[line].match(myMoveRegex)) {
-				// my last move
-				this.allyLastMove = this.getMoveNumber(lastLog[line].match(moveRegex)[1]);
-			} else if (lastLog[line].match(foeMoveRegex)) {
-				// foe last move
-				var moveName = lastLog[line].match(moveRegex)[1];
-				this.foeLastMove = this.getMoveNumber(moveName);
-				// if no match, must be a Z move, no need to record
-			} else if (lastLog[line].match(fromItemRegex) || lastLog[line].match(itemRegex)) {
+			if (lastLog[line].match(fromItemRegex) || lastLog[line].match(itemRegex)) {
 				this.side.foe.pokemon[0].revealItem = true;
 			}
 			if (lastLog[line].match(fromAbilityRegex) || 
@@ -474,9 +457,9 @@ class GameState {
 
 	/**
 	 * @param {Pokemon} pokemon
-	 * @param {boolean} revealAbility
+	 * @param {boolean} ally
 	 */
-	getPokemonStatus(pokemon, revealAbility) {
+	getPokemonStatus(pokemon, ally) {
 		var pokemonStatus = "";
 
 		// check to see if pokemon is null
@@ -506,7 +489,7 @@ class GameState {
 		pokemonStatus += "/" + Object.keys(this.types).length + "),";
 		// pokemon current ability
 		pokemonStatus += "(";
-		if (revealAbility || pokemon.revealAbility) {
+		if (ally || pokemon.revealAbility) {
 			pokemonStatus += this.abilitydex[pokemon.ability];
 		}
 		pokemonStatus += "/" + Object.keys(this.abilitydex).length + "),";
@@ -546,6 +529,14 @@ class GameState {
 		} else {
 			pokemonStatus += "0,";
 		}
+
+		// last move used by the pokemon
+		pokemonStatus += "(";
+		if (pokemon.lastMove) {
+			pokemonStatus += this.getMoveNumber(pokemon.lastMove.id, ally);
+		}
+		pokemonStatus += "/" + Object.keys(ally ? this.allyMovedex : 
+				this.foeMovedex).length + "),";
 
 		return pokemonStatus;
 	}
