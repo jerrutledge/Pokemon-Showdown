@@ -80,15 +80,6 @@
 // failed choice
 
 
-
-/*
-// TODO:
-// WIP
-side canMegaEvolve
-side canZmove
-
-*/
-
 // output a game state vector from game data 
 // intended as input for a neural network
 /**
